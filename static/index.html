@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>MiO Engine</title>
+    <link type="text/css" rel="stylesheet" href="/index.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/index.js" type="module"></script>
+    <script src="dist/mio-ui.js"></script>
+</head>
+<body>
+<noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+</noscript>
+<div id="MiO-UI"></div>
+<script type="module">
+    const { createApp } = Vue;
+
+    const app = createApp({
+        setup() {
+            return {}
+        },
+        mounted() {
+            console.log(app);
+        },
+        template: "<mio-selector />"
+    });
+
+    app.component('mio-selector', mio_ui.MiOSelector);
+
+    app.mount('#MiO-UI');
+</script>
+</body>
+</html>
