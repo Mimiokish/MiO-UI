@@ -19,13 +19,31 @@
     const { createApp } = Vue;
 
     const app = createApp({
-        setup() {
-            return {}
+        data() {
+            return {
+                test: 2,
+                list: [
+                    {
+                        label: "Test1",
+                        value: 1
+                    },
+                    {
+                        label: "Test2",
+                        value: 2
+                    }
+                ]
+            }
         },
         mounted() {
             console.log(app);
+            setTimeout(() => {
+                this.list.push({
+                    label: "Test3",
+                    value: 3
+                })
+            }, 2000);
         },
-        template: "<mio-selector />"
+        template: "<mio-selector v-model='test' :options='list' />"
     });
 
     app.component('mio-selector', mio_ui.MiOSelector);
