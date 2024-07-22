@@ -1,6 +1,7 @@
 import plugin_resolve from "@rollup/plugin-node-resolve";
 import plugin_vue from "rollup-plugin-vue";
 import plugin_babel from "@rollup/plugin-babel";
+import plugin_scss from "rollup-plugin-scss";
 import plugin_serve from "rollup-plugin-serve";
 
 export default {
@@ -23,6 +24,9 @@ export default {
         plugin_babel({
             babelHelpers: "bundled",
             exclude: "node_modules/**"
+        }),
+        plugin_scss({
+            fileName: "mio-ui.css"
         }),
         plugin_serve({
             contentBase: "static",

@@ -1,6 +1,7 @@
 import plugin_resolve from "@rollup/plugin-node-resolve";
 import plugin_vue from "rollup-plugin-vue";
 import plugin_babel from "@rollup/plugin-babel";
+import plugin_scss from "rollup-plugin-scss";
 import plugin_terser from "@rollup/plugin-terser";
 
 const cfg = {
@@ -13,6 +14,9 @@ const cfg = {
             presets: [
                 "@babel/preset-env"
             ]
+        }),
+        plugin_scss({
+            fileName: "mio-ui.css"
         }),
         plugin_terser()
     ]
