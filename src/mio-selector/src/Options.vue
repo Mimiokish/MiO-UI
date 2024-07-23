@@ -9,14 +9,14 @@ export default {
     },
     inject: [
             "value",
-            "updateMethod"
+            "updateMethods"
     ],
     methods: {
         handleSelect(value) {
             const _value = value
 
             if (_value) {
-                this.updateMethod.value(_value);
+                this.updateMethods.value(_value);
             }
         }
     }

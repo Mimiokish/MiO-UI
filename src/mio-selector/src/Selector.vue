@@ -21,7 +21,7 @@ export default {
     provide() {
         return {
             value: computed(() => this.value),
-            updateMethod: {
+            updateMethods: {
                 value: this.updateValue
             }
         }
