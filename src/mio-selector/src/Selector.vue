@@ -1,6 +1,7 @@
 <script>
 import Options from "./Options.vue";
 import Utils from "../../utils";
+import { computed } from "vue";
 
 export default {
     name: "mio-selector",
@@ -19,6 +20,7 @@ export default {
     },
     provide() {
         return {
+            value: computed(() => this.value),
             updateMethod: {
                 value: this.updateValue
             }
@@ -26,12 +28,16 @@ export default {
     },
     data() {
         return {
-            UUID: Utils.GenerateUUID()
+            UUID: Utils.GenerateUUID(),
+            value: null
         };
     },
     watch: {
-        list: {
-            immediate: true
+        modelValue: {
+            immediate: true,
+            handler(value) {
+                this.value = value;
+            }
         }
     },
     methods: {
@@ -73,7 +79,7 @@ export default {
         <div v-if="options.length <= 0" class="mio-selector-no-data">暂无数据</div>
         <template v-else>
             <template v-for="option in options">
-                <div v-if="option.value === modelValue" class="mio-selector-selection">{{ option.label }}</div>
+                <div v-if="option.value === value" class="mio-selector-selection">{{ option.label }}</div>
             </template>
             <div class="mio-selector-icon">&#10597;</div>
             <Options :id="'MiO-Options-' + UUID" :options="options" />
