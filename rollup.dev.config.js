@@ -4,12 +4,14 @@ import plugin_babel from "@rollup/plugin-babel";
 import plugin_scss from "rollup-plugin-scss";
 import plugin_serve from "rollup-plugin-serve";
 
+const PROJECT_BASE = process.env.npm_config_projectName ? "examples/" + process.env.npm_config_projectName : "static";
+
 export default {
     input: "src/index.js",
     output: {
         name: "MiO-UI",
-        format: 'iife',
-        file: 'static/dist/mio-ui.js',
+        format: "iife",
+        file: PROJECT_BASE + "/dist/mio-ui.js",
         extend: true,
         globals: {
             vue: "Vue"
@@ -29,7 +31,7 @@ export default {
             fileName: "mio-ui.css"
         }),
         plugin_serve({
-            contentBase: "static",
+            contentBase: PROJECT_BASE,
             headers: {
                 "Access-Control-Allow-Origin": "*"
             },

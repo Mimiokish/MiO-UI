@@ -8,7 +8,7 @@ JavaScript + Rollup + Vue 3.0
 ```
 Dependencies installation: npm install
 
-Local debugging: npm run serve
+Local debugging: npm run serve --projectName=[project name under examples]
 
 Packaging: npm run build
 ```

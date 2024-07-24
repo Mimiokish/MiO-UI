@@ -1,6 +1,6 @@
 <script>
-import Options from "./Options.vue";
 import Utils from "../../utils";
+import Options from "./Options.vue";
 import { computed } from "vue";
 
 export default {

@@ -21,9 +21,13 @@
 
             const app = createApp({
                 template: `
-                    <div style="width:100%; height: 100%; display: flex; flex-direction: column;">Welcome to MiO</div>
+                    <div style="width:100%; height: 100%; display: flex; flex-direction: column;">
+                        <mio-tree />
+                    </div>
                 `
             });
+
+            app.component(mio_ui.MiOTree.name, mio_ui.MiOTree);
 
             app.mount('#MiO-UI');
         </script>

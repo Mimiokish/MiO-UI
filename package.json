@@ -7,7 +7,7 @@
     "type": "module",
     "scripts": {
         "eslint-fix": "eslint --fix",
-        "serve": "rollup -w -c rollup.dev.config.mjs",
+        "serve": "rollup -w -c rollup.dev.config.js",
         "build": "rollup -c rollup.build.config.js"
     },
     "files": [
