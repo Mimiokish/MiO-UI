@@ -29,7 +29,8 @@ export default {
     data() {
         return {
             UUID: Utils.GenerateUUID(),
-            value: null
+            value: null,
+            eventDocumentClick: this.handleDocumentClick
         };
     },
     watch: {
@@ -69,7 +70,24 @@ export default {
                     _node.classList.add("bottom");
                 }
             }
+        },
+        handleDocumentClick(event) {
+            const _target = event.target;
+
+            if (!_target.id.includes(this.UUID)) {
+                const _nodeSelector = document.getElementById("MiO-Selector-" + this.UUID);
+                const _nodeOptions = document.getElementById("MiO-Options-" + this.UUID);
+
+                _nodeSelector.classList.remove("active");
+                _nodeOptions.classList.remove("active");
+            }
         }
+    },
+    mounted() {
+        document.addEventListener("click", this.eventDocumentClick);
+    },
+    beforeUnmount() {
+        document.removeEventListener("click", this.eventDocumentClick);
     }
 };
 </script>

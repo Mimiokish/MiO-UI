@@ -1,47 +1,6 @@
 this["MiO-UI"] = (function (vue) {
     'use strict';
 
-    var script$1 = {
-        name: "mio-options",
-        props: {
-            options: {
-                type: Array,
-                default: () => []
-            }
-        },
-        inject: [
-                "value",
-                "updateMethods"
-        ],
-        methods: {
-            handleSelect(value) {
-                const _value = value;
-
-                if (_value) {
-                    this.updateMethods.value(_value);
-                }
-            }
-        }
-    };
-
-    const _hoisted_1$1 = { class: "mio-options" };
-    const _hoisted_2$1 = ["onClick"];
-
-    function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-      return (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$1, [
-        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($props.options, (option) => {
-          return (vue.openBlock(), vue.createElementBlock("div", {
-            class: vue.normalizeClass(["mio-options-option", $options.value === option.value ? 'active' : '']),
-            onClick: $event => ($options.handleSelect(option.value))
-          }, vue.toDisplayString(option.label), 11 /* TEXT, CLASS, PROPS */, _hoisted_2$1))
-        }), 256 /* UNKEYED_FRAGMENT */))
-      ]))
-    }
-
-    script$1.render = render$1;
-    script$1.__scopeId = "data-v-e2265a94";
-    script$1.__file = "src/mio-selector/src/Options.vue";
-
     const GenerateUUID = () => {
       return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0;
@@ -89,10 +48,51 @@ this["MiO-UI"] = (function (vue) {
       GetNodePosition: GenerateUtils.GetNodePosition
     };
 
-    var script = {
+    var script$2 = {
+        name: "mio-options",
+        props: {
+            options: {
+                type: Array,
+                default: () => []
+            }
+        },
+        inject: [
+                "value",
+                "updateMethods"
+        ],
+        methods: {
+            handleSelect(value) {
+                const _value = value;
+
+                if (_value) {
+                    this.updateMethods.value(_value);
+                }
+            }
+        }
+    };
+
+    const _hoisted_1$2 = { class: "mio-options" };
+    const _hoisted_2$1 = ["onClick"];
+
+    function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+      return (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($props.options, (option) => {
+          return (vue.openBlock(), vue.createElementBlock("div", {
+            class: vue.normalizeClass(["mio-options-option", $options.value === option.value ? 'active' : '']),
+            onClick: $event => ($options.handleSelect(option.value))
+          }, vue.toDisplayString(option.label), 11 /* TEXT, CLASS, PROPS */, _hoisted_2$1))
+        }), 256 /* UNKEYED_FRAGMENT */))
+      ]))
+    }
+
+    script$2.render = render$2;
+    script$2.__scopeId = "data-v-e2265a94";
+    script$2.__file = "src/mio-selector/src/Options.vue";
+
+    var script$1 = {
         name: "mio-selector",
         components: {
-            Options: script$1
+            Options: script$2
         },
         props: {
             modelValue: {
@@ -115,7 +115,8 @@ this["MiO-UI"] = (function (vue) {
         data() {
             return {
                 UUID: Utils.GenerateUUID(),
-                value: null
+                value: null,
+                eventDocumentClick: this.handleDocumentClick
             };
         },
         watch: {
@@ -155,12 +156,29 @@ this["MiO-UI"] = (function (vue) {
                         _node.classList.add("bottom");
                     }
                 }
+            },
+            handleDocumentClick(event) {
+                const _target = event.target;
+
+                if (!_target.id.includes(this.UUID)) {
+                    const _nodeSelector = document.getElementById("MiO-Selector-" + this.UUID);
+                    const _nodeOptions = document.getElementById("MiO-Options-" + this.UUID);
+
+                    _nodeSelector.classList.remove("active");
+                    _nodeOptions.classList.remove("active");
+                }
             }
+        },
+        mounted() {
+            document.addEventListener("click", this.eventDocumentClick);
+        },
+        beforeUnmount() {
+            document.removeEventListener("click", this.eventDocumentClick);
         }
     };
 
     const _withScopeId = n => (vue.pushScopeId("data-v-6fe49677"),n=n(),vue.popScopeId(),n);
-    const _hoisted_1 = ["id"];
+    const _hoisted_1$1 = ["id"];
     const _hoisted_2 = {
       key: 0,
       class: "mio-selector-no-data"
@@ -171,7 +189,7 @@ this["MiO-UI"] = (function (vue) {
     };
     const _hoisted_4 = /*#__PURE__*/ _withScopeId(() => /*#__PURE__*/vue.createElementVNode("div", { class: "mio-selector-icon" }, "⥥", -1 /* HOISTED */));
 
-    function render(_ctx, _cache, $props, $setup, $data, $options) {
+    function render$1(_ctx, _cache, $props, $setup, $data, $options) {
       const _component_Options = vue.resolveComponent("Options");
 
       return (vue.openBlock(), vue.createElementBlock("div", {
@@ -195,24 +213,50 @@ this["MiO-UI"] = (function (vue) {
                 options: $props.options
               }, null, 8 /* PROPS */, ["id", "options"])
             ], 64 /* STABLE_FRAGMENT */))
-      ], 8 /* PROPS */, _hoisted_1))
+      ], 8 /* PROPS */, _hoisted_1$1))
+    }
+
+    script$1.render = render$1;
+    script$1.__scopeId = "data-v-6fe49677";
+    script$1.__file = "src/mio-selector/src/Selector.vue";
+
+    script$1.install = app => {
+      app.component(script$1.name, script$1);
+    };
+
+    var script = {
+        name: "mio-tree",
+        data() {
+            return {
+                UUID: Utils.GenerateUUID()
+            };
+        }
+    };
+
+    const _hoisted_1 = ["id"];
+
+    function render(_ctx, _cache, $props, $setup, $data, $options) {
+      return (vue.openBlock(), vue.createElementBlock("div", {
+        id: 'MiO-Tree-' + $data.UUID
+      }, null, 8 /* PROPS */, _hoisted_1))
     }
 
     script.render = render;
-    script.__scopeId = "data-v-6fe49677";
-    script.__file = "src/mio-selector/src/Selector.vue";
+    script.__file = "src/mio-tree/src/Tree.vue";
 
     script.install = app => {
       app.component(script.name, script);
     };
 
     var index = {
-      MiOSelector: script
+      MiOSelector: script$1,
+      MiOTree: script
     };
 
     // TO DELETE: test code
     window.mio_ui = {
-      MiOSelector: script
+      MiOSelector: script$1,
+      MiOTree: script
     };
 
     return index;
