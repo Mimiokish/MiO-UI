@@ -12,4 +12,5 @@ body #MiO-UI {
     overflow: auto;
     box-sizing: border-box;
     display: flex;
+    padding: 20PX;
 }

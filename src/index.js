@@ -1,13 +1,13 @@
-import MiOSelector from "./mio-selector";
-import MiOTree from "./mio-tree";
+import MiOSelect from "./mio-select";
+import MiOList from "./mio-list";
 
 export default {
-    MiOSelector,
-    MiOTree
+    MiOSelect,
+    MiOList
 };
 
 // TO DELETE: test code
 window.mio_ui = {
-    MiOSelector,
-    MiOTree
+    MiOSelect,
+    MiOList
 }
