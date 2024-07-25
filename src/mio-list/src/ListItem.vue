@@ -47,12 +47,12 @@ export default {
 
 <template>
     <div class="mio-list-item" :class="'mio-list-item-' + (!marker ? _marker : marker)">
-        <div class="mio-list-item-label" v-if="item.label" @click="handleClick">{{ item.label }}</div>
+        <div class="mio-list-item-content" v-if="item.label" @click="handleClick">{{ item.label }}</div>
         <template v-else>
             <slot  />
         </template>
         <template v-if="item.children">
-            <div class="mio-list-item-content" v-if="item.children.length > 0">
+            <div class="mio-list-item-children" v-if="item.children.length > 0">
                 <mio-list-item v-for="(subItem, subItemIndex) in item.children" :marker="!marker ? _marker + '-' + (subItemIndex + 1).toString() : marker + '-' + (subItemIndex + 1).toString()" :item="subItem" />
             </div>
         </template>
@@ -68,7 +68,7 @@ export default {
     flex-direction: column;
     overflow: hidden;
 
-    .mio-list-item-label {
+    .mio-list-item-content {
         box-sizing: border-box;
         flex: 0 0 32PX;
         width: 100%;
@@ -93,7 +93,7 @@ export default {
         }
     }
 
-    .mio-list-item-content {
+    .mio-list-item-children {
         box-sizing: border-box;
         flex: 1;
         width: 100%;
