@@ -1,4 +1,58 @@
-.mio-selector {
+.mio-list {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.mio-list-item {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.mio-list-item .mio-list-item-content {
+  box-sizing: border-box;
+  flex: 0 0 32PX;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 8PX;
+  font-size: 14PX;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.mio-list-item .mio-list-item-content:hover {
+  cursor: pointer;
+  background-color: rgba(0, 156, 156, 0.1);
+  border-radius: 4PX;
+}
+.mio-list-item .mio-list-item-content.active {
+  color: rgb(255, 127, 0);
+}
+.mio-list-item .mio-list-item-children {
+  box-sizing: border-box;
+  height: 0;
+  width: 100%;
+  margin-left: 16PX;
+  display: flex;
+  flex-direction: column;
+}
+.mio-list-item .mio-list-item-children.expend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mio-select {
   position: relative;
   width: 200PX;
   height: 32PX;
@@ -14,16 +68,16 @@
   border-radius: 4PX;
   box-shadow: 0 0 2PX rgba(45, 45, 45, 0.2);
 }
-.mio-selector:hover {
+.mio-select:hover {
   cursor: pointer;
 }
-.mio-selector:hover .mio-selector-icon {
+.mio-select:hover .mio-select-icon {
   color: rgb(0, 156, 156);
 }
-.mio-selector.active .mio-selector-icon {
+.mio-select.active .mio-select-icon {
   transform: rotateX(180deg);
 }
-.mio-selector .mio-selector-selection {
+.mio-select .mio-select-placeholder, .mio-select .mio-select-label {
   pointer-events: none;
   flex: 1;
   height: 100%;
@@ -36,7 +90,10 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.mio-selector .mio-selector-icon {
+.mio-select .mio-select-placeholder {
+  color: rgba(45, 45, 45, 0.5);
+}
+.mio-select .mio-select-icon {
   pointer-events: none;
   flex: 0 0 32PX;
   height: 100%;
@@ -49,8 +106,7 @@
   transition-duration: 0.25s;
   transition-timing-function: ease-in-out;
 }
-
-.mio-options {
+.mio-select .mio-select-options {
   position: absolute;
   background-color: rgb(255, 255, 255);
   box-shadow: 0 0 6PX rgba(45, 45, 45, 0.25);
@@ -65,8 +121,13 @@
   opacity: 0;
   height: auto;
   max-height: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.mio-options.active {
+.mio-select .mio-select-options::-webkit-scrollbar {
+  display: none;
+}
+.mio-select .mio-select-options.active {
   opacity: 1;
   height: auto;
   max-height: 300PX;
@@ -74,17 +135,19 @@
   transition-duration: 0.25s;
   transition-timing-function: ease-in-out;
 }
-.mio-options.active.top {
+.mio-select .mio-select-options.active.top {
   transform-origin: bottom;
   top: auto;
   bottom: 120%;
 }
-.mio-options.active.bottom {
+.mio-select .mio-select-options.active.bottom {
   transform-origin: top;
   top: 120%;
   bottom: auto;
 }
-.mio-options .mio-options-option {
+
+.mio-select-option {
+  box-sizing: border-box;
   flex: 0 0 32PX;
   width: 100%;
   display: flex;
@@ -92,17 +155,28 @@
   align-items: center;
   font-size: 14PX;
   font-weight: 400;
-  line-height: 32PX;
   padding: 2PX 6PX;
-  box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.mio-options .mio-options-option:hover {
+.mio-select-option:hover {
   background-color: rgba(0, 156, 156, 0.1);
   cursor: pointer;
 }
-.mio-options .mio-options-option.active {
+.mio-select-option.active {
   background-color: rgba(0, 156, 156, 0.2);
+}
+.mio-select-option .mio-select-option-label {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14PX;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
