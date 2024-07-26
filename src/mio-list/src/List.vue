@@ -1,5 +1,6 @@
 <script>
 import Utils from "../../utils";
+import { computed } from "vue";
 
 export default {
     name: "mio-list",
@@ -13,50 +14,108 @@ export default {
     },
     provide() {
         return {
+            activeMarker: computed(() => this.activeMarker),
             updateMethods: {
-                active: this.updateActive
+                active: this.updateActiveMarker,
+                activate: this.activate,
+                deactivate: this.deactivate
             }
         }
     },
     data() {
         return {
             UUID: Utils.GenerateUUID(),
-            active: "",
-            mode: ""
+            activeMarker: "",
+            mode: "accordion"
         };
     },
     methods: {
         activate(marker) {
-            const _mk = marker;
+            const _newMaker = marker.split("-");
+            const _latestMarker = this.activeMarker.split("-");
 
-            if (_mk) {
-                const _nodeContent = document.getElementById("MiO-List-Content-" + _mk);
-
-                if (_nodeContent) {
-                    _nodeContent.classList.add("active");
-                }
+            switch (this.mode) {
+                case "accordion":
+                case "Accordion":
+                    this.activateAccordion(_newMaker.join("-"));
+                    break;
+                default:
+                    this.activateDefault(_newMaker.join("-"));
+                    break;
             }
         },
         deactivate(marker) {
-            const _mk = marker;
+            const _newMaker = marker.split("-");
+            const _latestMarker = this.activeMarker.split("-");
 
-            if (_mk) {
-                const _nodeContent = document.getElementById("MiO-List-Content-" + _mk);
-
-                if (_nodeContent) {
-                    _nodeContent.classList.remove("active");
-                }
+            switch (this.mode) {
+                case "accordion":
+                    this.deactivateAccordion();
+                    break;
+                default:
+                    this.deactivateDefault();
+                    break;
             }
         },
         activateDefault(marker) {},
-        activateAccordion(marker) {},
-        deactivateDefault(marker) {},
-        deactivateAccordion() {},
-        updateActive(active) {
-            const _active = active;
+        activateAccordion(marker) {
+            const _newMarker = marker.split("-");
+            const len = _newMarker.length;
 
-            if (_active) {
-                this.active = _active;
+            if (len > 0) {
+                for (let idx = 0; idx < len; idx++) {
+                    const tempMarker = _newMarker.slice(0, idx + 1).join("-");
+
+                    const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
+                    if (_nodeItem) {
+                        _nodeItem.classList.add("active");
+                    }
+
+                    const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
+                    if (_nodeContent) {
+                        _nodeContent.classList.add("active");
+                    }
+
+                    const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
+                    if (_nodeChildren) {
+                        _nodeChildren.classList.add("expend");
+                    }
+                }
+            }
+
+        },
+        deactivateDefault() {
+        },
+        deactivateAccordion() {
+            const _latestMarker = this.activeMarker.split("-");
+            const len = _latestMarker.length;
+
+            if (len > 0) {
+                for (let idx = len; idx > 0; idx--) {
+                    const tempMarker = _latestMarker.slice(0, idx).join("-");
+
+                    const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
+                    if (_nodeItem) {
+                        _nodeItem.classList.remove("active");
+                    }
+
+                    const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
+                    if (_nodeContent) {
+                        _nodeContent.classList.remove("active");
+                    }
+
+                    const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
+                    if (_nodeChildren) {
+                        _nodeChildren.classList.remove("expend");
+                    }
+                }
+            }
+        },
+        updateActiveMarker(marker) {
+            const _marker = marker;
+
+            if (_marker) {
+                this.activeMarker = _marker;
             }
         }
     }
