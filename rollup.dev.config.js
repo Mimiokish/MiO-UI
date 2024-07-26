@@ -9,7 +9,7 @@ const PROJECT_BASE = process.env.npm_config_projectName ? "examples/" + process.
 export default {
     input: "src/index.js",
     output: {
-        name: "MiO-UI",
+        name: "MiOUI",
         format: "iife",
         file: PROJECT_BASE + "/dist/mio-ui.js",
         extend: true,
