@@ -7,9 +7,9 @@ export default {
     components: {
     },
     props: {
-        options: {
-            type: Array,
-            default: () => []
+        mode: {
+            type: String,
+            default: "accordion"
         }
     },
     provide() {
@@ -25,16 +25,31 @@ export default {
     data() {
         return {
             UUID: Utils.GenerateUUID(),
-            activeMarker: "",
-            mode: "accordion"
+            _mode: "accordion",
+            activeMarker: ""
         };
+    },
+    watch: {
+        mode: {
+            handler(newVal) {
+                switch (newVal) {
+                    case "accordion":
+                    case "Accordion":
+                        this._mode = "accordion";
+                        break;
+                    default:
+                        this._mode = "default";
+                        break;
+                }
+            }
+        }
     },
     methods: {
         activate(marker) {
             const _newMaker = marker.split("-");
             const _latestMarker = this.activeMarker.split("-");
 
-            switch (this.mode) {
+            switch (this._mode) {
                 case "accordion":
                 case "Accordion":
                     this.activateAccordion(_newMaker.join("-"));
@@ -48,7 +63,7 @@ export default {
             const _newMaker = marker.split("-");
             const _latestMarker = this.activeMarker.split("-");
 
-            switch (this.mode) {
+            switch (this._mode) {
                 case "accordion":
                     this.deactivateAccordion();
                     break;

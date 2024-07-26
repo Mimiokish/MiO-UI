@@ -65,9 +65,9 @@ const app = createApp({
     },
     template: `
         <div style="width:200PX; height: 100%; display: flex;">
-            <mio-list>
+            <mio-list mode="accordion">
 <!--                <mio-list-item v-for="(item, index) in list" :marker="(index + 1).toString()" :item="item" />-->
-                <mio-list-item v-for="(item, index) in list" :item="item" />
+                <mio-list-item v-for="item in list" :item="item" />
             </mio-list>
         </div>
     `
