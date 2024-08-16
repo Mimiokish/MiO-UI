@@ -30,6 +30,23 @@ export default [
         input: cfg.input,
         output: {
             name: "MiOUI",
+            format: "iife",
+            file: 'build/mio-ui.js',
+            extend: true,
+            globals: {
+                vue: "Vue"
+            }
+        },
+        plugins: [
+            plugin_vue(),
+            ...cfg.plugins
+        ],
+        external: cfg.external
+    },
+    {
+        input: cfg.input,
+        output: {
+            name: "MiOUI",
             format: 'umd',
             file: 'build/mio-ui.umd.js',
             sourcemap: true,
