@@ -11,13 +11,20 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    methods: {
+        handleClick() {
+            if (this.link) {
+                this.$router.push(this.link);
+            }
+        }
     }
 }
 </script>
 
 <template>
     <div class="mio-breadcrumb-separator">{{ separator }}</div>
-    <div class="mio-breadcrumb-item" :class="active ? 'active' : ''">
+    <div class="mio-breadcrumb-item" :class="active ? 'active' : ''" @click="handleClick">
         <slot />
     </div>
 </template>

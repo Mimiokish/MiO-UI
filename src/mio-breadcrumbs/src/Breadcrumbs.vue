@@ -23,11 +23,16 @@ export default {
         disableFirstSeparator() {
             const children = this.$el.children;
             if (children.length > 0 && children[0]) {
-                children[0].style.display = "none";
+                if (children[0].classList.contains("mio-breadcrumb-separator")) {
+                    children[0].remove();
+                }
             }
         }
     },
     mounted() {
+        this.disableFirstSeparator();
+    },
+    updated() {
         this.disableFirstSeparator();
     }
 }
