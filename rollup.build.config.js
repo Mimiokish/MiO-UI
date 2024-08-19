@@ -1,3 +1,4 @@
+import plugin_replace from "@rollup/plugin-replace";
 import plugin_vue from "rollup-plugin-vue";
 import plugin_resolve from "@rollup/plugin-node-resolve";
 import plugin_commonjs from "@rollup/plugin-commonjs";
@@ -8,6 +9,10 @@ import plugin_terser from "@rollup/plugin-terser";
 const cfg = {
     input: "src/index.js",
     plugins: [
+        plugin_replace({
+            "process.env.NODE_ENV": JSON.stringify("production"),
+            preventAssignment: true,
+        }),
         plugin_resolve(),
         plugin_commonjs(),
         plugin_babel({

@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import { inject } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
     link: {
@@ -17,12 +18,20 @@ const props = defineProps({
         default: false
     }
 });
+
+const router = useRouter();
+
+function handleClick() {
+    if (this.link) {
+        router.push(this.link);
+    }
+}
 const separator = inject("separator");
 </script>
 
 <template>
     <div class="mio-breadcrumb-separator">{{ separator }}</div>
-    <div class="mio-breadcrumb-item" :class="active ? 'active' : ''">
+    <div class="mio-breadcrumb-item" :class="active ? 'active' : ''" @click="handleClick">
         <slot />
     </div>
 </template>

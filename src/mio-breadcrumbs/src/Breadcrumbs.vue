@@ -20,9 +20,9 @@ const UUID = Utils.GenerateUUID();
 provide("separator", props.separator);
 
 function disableFirstSeparator() {
-    const children = document.getElementById(`MiO-Breadcrumbs-${UUID}`).children;
+    const children = document.getElementById('MiO-Breadcrumbs-' + UUID).children;
     if (children.length > 0 && children[0]) {
-        children[0].style.display = "none";
+        children[0].remove();
     }
 }
 

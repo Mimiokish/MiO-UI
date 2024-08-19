@@ -1,3 +1,4 @@
+import plugin_replace from "@rollup/plugin-replace";
 import plugin_resolve from "@rollup/plugin-node-resolve";
 import plugin_vue from "rollup-plugin-vue";
 import plugin_babel from "@rollup/plugin-babel";
@@ -21,6 +22,10 @@ export default {
         "vue"
     ],
     plugins: [
+        plugin_replace({
+            "process.env.NODE_ENV": JSON.stringify("development"),
+            preventAssignment: true,
+        }),
         plugin_resolve(),
         plugin_vue(),
         plugin_babel({
