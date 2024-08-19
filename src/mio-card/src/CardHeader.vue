@@ -1,8 +1,13 @@
-<script lang="ts">
+<script>
 export default {
-    name: "mio-card-header",
-    inject: ["UUID"]
+    name: "mio-card-header"
 }
+</script>
+
+<script setup>
+import { inject } from "vue";
+
+const UUID = inject("UUID");
 </script>
 
 <template>

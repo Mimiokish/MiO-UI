@@ -1,19 +1,17 @@
 <script>
-import Utils from "../../utils";
 
 export default {
-    name: "mio-card",
-    data() {
-        return {
-            UUID: Utils.GenerateUUID()
-        }
-    },
-    provide() {
-        return {
-            UUID: this.UUID
-        }
-    }
+    name: "mio-card"
 }
+</script>
+
+<script setup>
+import { provide } from "vue";
+import Utils from "../../utils";
+
+const UUID = Utils.GenerateUUID();
+
+provide("UUID", UUID);
 </script>
 
 <template>

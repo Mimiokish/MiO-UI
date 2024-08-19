@@ -1,138 +1,129 @@
 <script>
-import Utils from "../../utils";
-import { computed } from "vue";
-
 export default {
-    name: "mio-list",
-    components: {
-    },
-    props: {
-        mode: {
-            type: String,
-            default: "accordion"
-        }
-    },
-    provide() {
-        return {
-            activeMarker: computed(() => this.activeMarker),
-            updateMethods: {
-                active: this.updateActiveMarker,
-                activate: this.activate,
-                deactivate: this.deactivate
+    name: "mio-list"
+}
+</script>
+
+<script setup>
+import { ref, provide, watch } from "vue";
+import Utils from "../../utils";
+
+const props = defineProps({
+    mode: {
+        type: String,
+        default: "default"
+    }
+});
+
+const UUID = Utils.GenerateUUID();
+const mode = ref("accordion");
+const activeMarker = ref("");
+
+provide("activeMarker", activeMarker);
+provide("updateMethods", {
+    active: updateActiveMarker,
+    activate: activate,
+    deactivate: deactivate
+});
+
+watch(props.mode, (newVal) => {
+    switch (newVal) {
+        case "accordion":
+        case "Accordion":
+            mode.value = "accordion";
+            break;
+        default:
+            mode.value = "default";
+            break;
+    }
+})
+
+function activate(marker) {
+    const _newMaker = marker.split("-");
+    const _latestMarker = activeMarker.value.split("-");
+
+    switch (mode.value) {
+        case "accordion":
+        case "Accordion":
+            activateAccordion(_newMaker.join("-"));
+            break;
+        default:
+            activateDefault(_newMaker.join("-"));
+            break;
+    }
+}
+function deactivate(marker) {
+    const _newMaker = marker.split("-");
+    const _latestMarker = activeMarker.value.split("-");
+
+    switch (mode.value) {
+        case "accordion":
+            deactivateAccordion();
+            break;
+        default:
+            deactivateDefault();
+            break;
+    }
+}
+function activateDefault(marker) {}
+function activateAccordion(marker) {
+    const _newMarker = marker.split("-");
+    const len = _newMarker.length;
+
+    if (len > 0) {
+        for (let idx = 0; idx < len; idx++) {
+            const tempMarker = _newMarker.slice(0, idx + 1).join("-");
+
+            const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
+            if (_nodeItem) {
+                _nodeItem.classList.add("active");
+            }
+
+            const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
+            if (_nodeContent) {
+                _nodeContent.classList.add("active");
+            }
+
+            const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
+            if (_nodeChildren) {
+                _nodeChildren.classList.add("expend");
             }
         }
-    },
-    data() {
-        return {
-            UUID: Utils.GenerateUUID(),
-            _mode: "accordion",
-            activeMarker: ""
-        };
-    },
-    watch: {
-        mode: {
-            handler(newVal) {
-                switch (newVal) {
-                    case "accordion":
-                    case "Accordion":
-                        this._mode = "accordion";
-                        break;
-                    default:
-                        this._mode = "default";
-                        break;
-                }
+    }
+
+}
+function deactivateDefault() {
+}
+function deactivateAccordion() {
+    const _latestMarker = activeMarker.value.split("-");
+    const len = _latestMarker.length;
+
+    if (len > 0) {
+        for (let idx = len; idx > 0; idx--) {
+            const tempMarker = _latestMarker.slice(0, idx).join("-");
+
+            const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
+            if (_nodeItem) {
+                _nodeItem.classList.remove("active");
+            }
+
+            const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
+            if (_nodeContent) {
+                _nodeContent.classList.remove("active");
+            }
+
+            const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
+            if (_nodeChildren) {
+                _nodeChildren.classList.remove("expend");
             }
         }
-    },
-    methods: {
-        activate(marker) {
-            const _newMaker = marker.split("-");
-            const _latestMarker = this.activeMarker.split("-");
+    }
+}
+function updateActiveMarker(marker) {
+    const _marker = marker;
 
-            switch (this._mode) {
-                case "accordion":
-                case "Accordion":
-                    this.activateAccordion(_newMaker.join("-"));
-                    break;
-                default:
-                    this.activateDefault(_newMaker.join("-"));
-                    break;
-            }
-        },
-        deactivate(marker) {
-            const _newMaker = marker.split("-");
-            const _latestMarker = this.activeMarker.split("-");
-
-            switch (this._mode) {
-                case "accordion":
-                    this.deactivateAccordion();
-                    break;
-                default:
-                    this.deactivateDefault();
-                    break;
-            }
-        },
-        activateDefault(marker) {},
-        activateAccordion(marker) {
-            const _newMarker = marker.split("-");
-            const len = _newMarker.length;
-
-            if (len > 0) {
-                for (let idx = 0; idx < len; idx++) {
-                    const tempMarker = _newMarker.slice(0, idx + 1).join("-");
-
-                    const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
-                    if (_nodeItem) {
-                        _nodeItem.classList.add("active");
-                    }
-
-                    const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
-                    if (_nodeContent) {
-                        _nodeContent.classList.add("active");
-                    }
-
-                    const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
-                    if (_nodeChildren) {
-                        _nodeChildren.classList.add("expend");
-                    }
-                }
-            }
-
-        },
-        deactivateDefault() {
-        },
-        deactivateAccordion() {
-            const _latestMarker = this.activeMarker.split("-");
-            const len = _latestMarker.length;
-
-            if (len > 0) {
-                for (let idx = len; idx > 0; idx--) {
-                    const tempMarker = _latestMarker.slice(0, idx).join("-");
-
-                    const _nodeItem = document.getElementById("MiO-List-Item-" + tempMarker);
-                    if (_nodeItem) {
-                        _nodeItem.classList.remove("active");
-                    }
-
-                    const _nodeContent = document.getElementById("MiO-List-Item-Content-" + tempMarker);
-                    if (_nodeContent) {
-                        _nodeContent.classList.remove("active");
-                    }
-
-                    const _nodeChildren = document.getElementById("MiO-List-Item-Children-" + tempMarker);
-                    if (_nodeChildren) {
-                        _nodeChildren.classList.remove("expend");
-                    }
-                }
-            }
-        },
-        updateActiveMarker(marker) {
-            const _marker = marker;
-
-            if (_marker) {
-                this.activeMarker = _marker;
-            }
-        }
+    if (_marker) {
+        activeMarker.value = _marker;
     }
 }
 </script>

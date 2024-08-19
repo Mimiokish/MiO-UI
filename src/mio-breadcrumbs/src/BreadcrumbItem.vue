@@ -1,18 +1,23 @@
 <script>
 export default {
-    name: "mio-breadcrumb-item",
-    inject: ["separator"],
-    props: {
-        link: {
-            type: String,
-            default: ""
-        },
-        active: {
-            type: Boolean,
-            default: false
-        }
-    }
+    name: "mio-breadcrumb-item"
 }
+</script>
+
+<script setup>
+import { inject } from "vue";
+
+const props = defineProps({
+    link: {
+        type: String,
+        default: ""
+    },
+    active: {
+        type: Boolean,
+        default: false
+    }
+});
+const separator = inject("separator");
 </script>
 
 <template>

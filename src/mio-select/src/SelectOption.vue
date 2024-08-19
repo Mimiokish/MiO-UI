@@ -1,30 +1,33 @@
 <script>
 export default {
-    name: "mio-select-option",
-    props: {
-        label: {
-            type: String,
-            default: ""
-        }
-    },
-    inject: [
-            "updateMethods"
-    ],
-    methods: {
-        handleClick(event) {
-            const _target = event.target;
+    name: "mio-select-option"
+}
+</script>
 
-            if (_target) {
-                this.updateMethods.value(_target.getAttribute("key"), _target.getAttribute("value"), _target.innerText);
-            }
-        }
+<script setup>
+import { inject } from "vue";
+
+const props = defineProps({
+    label: {
+        type: String,
+        default: ""
+    }
+});
+
+const updateMethods = inject("updateMethods");
+
+function handleClick(event) {
+    const _target = event.target;
+
+    if (_target) {
+        updateMethods.value(_target.getAttribute("key"), _target.getAttribute("value"), _target.innerText);
     }
 }
 </script>
 
 <template>
     <div class="mio-select-option" @click="handleClick">
-        <div class="mio-select-option-label" v-show="label">{{ label }}</div>
+        <div class="mio-select-option-label" v-show="props.label">{{ props.label }}</div>
         <slot />
     </div>
 </template>

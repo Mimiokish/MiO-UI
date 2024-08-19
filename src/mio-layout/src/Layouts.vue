@@ -1,14 +1,13 @@
 <script>
+export default {
+    name: "mio-layouts"
+}
+</script>
+
+<script setup>
 import Utils from "../../utils/index.js";
 
-export default {
-    name: "mio-layouts",
-    data() {
-        return {
-            UUID: Utils.GenerateUUID()
-        }
-    }
-}
+const UUID = Utils.GenerateUUID();
 </script>
 
 <template>

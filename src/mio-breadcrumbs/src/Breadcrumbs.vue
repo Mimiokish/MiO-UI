@@ -2,35 +2,33 @@
 import Utils from "../../utils";
 
 export default {
-    name: "mio-breadcrumbs",
-    props: {
-        separator: {
-            type: String,
-            default: "/"
-        }
-    },
-    data() {
-        return {
-            UUID: Utils.GenerateUUID()
-        }
-    },
-    provide() {
-        return {
-            separator: this.separator
-        }
-    },
-    methods: {
-        disableFirstSeparator() {
-            const children = this.$el.children;
-            if (children.length > 0 && children[0]) {
-                children[0].style.display = "none";
-            }
-        }
-    },
-    mounted() {
-        this.disableFirstSeparator();
+    name: "mio-breadcrumbs"
+}
+</script>
+
+<script setup>
+import { provide, onMounted } from "vue";
+
+const props = defineProps({
+    separator: {
+        type: String,
+        default: "/"
+    }
+});
+const UUID = Utils.GenerateUUID();
+
+provide("separator", props.separator);
+
+function disableFirstSeparator() {
+    const children = document.getElementById(`MiO-Breadcrumbs-${UUID}`).children;
+    if (children.length > 0 && children[0]) {
+        children[0].style.display = "none";
     }
 }
+
+onMounted(() => {
+    disableFirstSeparator();
+});
 </script>
 
 <template>

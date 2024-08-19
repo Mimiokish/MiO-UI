@@ -1,8 +1,13 @@
-<script lang="ts">
+<script>
 export default {
-    name: "mio-card-footer",
-    inject: ["UUID"]
+    name: "mio-card-footer"
 }
+</script>
+
+<script setup>
+import { inject } from "vue";
+
+const UUID = inject("UUID");
 </script>
 
 <template>
