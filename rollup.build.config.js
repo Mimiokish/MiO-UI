@@ -27,7 +27,10 @@ const cfg = {
         }),
         plugin_terser()
     ],
-    external: ["vue"]
+    external: [
+        "vue",
+        "vue-router"
+    ]
 }
 
 export default [
@@ -39,7 +42,8 @@ export default [
             file: 'build/mio-ui.js',
             extend: true,
             globals: {
-                vue: "Vue"
+                vue: "Vue",
+                "vue-router": "VueRouter"
             }
         },
         plugins: [
@@ -56,7 +60,8 @@ export default [
             file: 'build/mio-ui.umd.js',
             sourcemap: true,
             globals: {
-                vue: "Vue"
+                vue: "Vue",
+                "vue-router": "VueRouter"
             }
         },
         plugins: [

@@ -15,11 +15,13 @@ export default {
         file: PROJECT_BASE + "/dist/mio-ui.js",
         extend: true,
         globals: {
-            vue: "Vue"
+            vue: "Vue",
+            "vue-router": "VueRouter"
         }
     },
     external: [
-        "vue"
+        "vue",
+        "vue-router"
     ],
     plugins: [
         plugin_replace({

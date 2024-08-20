@@ -1,5 +1,5 @@
 import MiOLayouts from "./mio-layout";
-import MiOSvg from "./mio-svg";
+import MiOMenus from "./mio-menus";
 import MiOBreadcrumbs from "./mio-breadcrumbs";
 import MiOSelect from "./mio-select";
 import MiOList from "./mio-list";
@@ -7,7 +7,7 @@ import MiOCard from "./mio-card";
 
 const MiOUI = {
     MiOLayouts,
-    MiOSvg,
+    MiOMenus,
     MiOBreadcrumbs,
     MiOSelect,
     MiOList,
@@ -18,7 +18,7 @@ export default MiOUI;
 // TO DELETE: test code
 window.mio_ui = {
     MiOLayouts,
-    MiOSvg,
+    MiOMenus,
     MiOBreadcrumbs,
     MiOSelect,
     MiOList,

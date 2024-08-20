@@ -1,9 +1,9 @@
 <script>
 export default {
-    name: "mio-svg"
+    name: "menu-item"
 }
 </script>
 
 <template>
-    <div></div>
+    <div>Menu Item</div>
 </template>
