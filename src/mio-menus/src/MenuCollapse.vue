@@ -42,6 +42,7 @@ function handleCollapse(event) {
             if (props.path) {
                 router.push(props.path);
             }
+            updateMethods.setActive(props.index);
         } else {
             isCollapse.value = !isCollapse.value;
             updateMethods.setActive(props.index);
