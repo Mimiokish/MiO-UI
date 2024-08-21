@@ -47,15 +47,15 @@ const app = createApp({
         <div style="width:100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
             <mio-table :data="data">
                 <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
-                    <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label['zh-CN']" :span="column.configs.span">
+                    <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
                         <template #body>
                             <button>按钮</button>
                         </template>
                     </mio-table-column>
-                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['zh-CN']" :span="column.configs.span">
-                        <template #header>{{ column.label["zh-CN"] }}（yyyy-mm-dd）</template>
+                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
+                        <template #header>{{ column.label["en-US"] }}（yyyy-mm-dd）</template>
                     </mio-table-column>
-                    <mio-table-column v-else :prop="column.key" :label="column.label['zh-CN']" :span="column.configs.span" />
+                    <mio-table-column v-else :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" />
                 </template>
             </mio-table>
         </div>

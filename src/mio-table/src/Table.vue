@@ -65,6 +65,9 @@ function fillColumns(prop, label, span, slot) {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    border: 1PX solid rgba(46, 46, 46, 0.3);
+    border-radius: 6PX;
+    box-shadow: 0 0 12PX rgba(46, 46, 46, 0.1);
 
     .mio-table-header {
         flex: 0 0 38PX;
@@ -75,6 +78,8 @@ function fillColumns(prop, label, span, slot) {
     }
 
     .mio-table-body {
+        box-sizing: border-box;
+        padding: 10PX;
         flex: 1;
         width: 100%;
         overflow: auto;
@@ -89,12 +94,23 @@ function fillColumns(prop, label, span, slot) {
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
+            border-bottom: 1PX dashed rgba(46, 46, 46, 0.3);
+            border-top: 1PX dashed rgba(46, 46, 46, 0.3);
 
             .mio-table-column {
+                box-sizing: border-box;
                 flex: 1;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                font-size: 16PX;
+                font-weight: 500;
+                color: rgba(46, 46, 46, 0.8);
+                padding: 6PX 10PX;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 26PX;
             }
         }
 

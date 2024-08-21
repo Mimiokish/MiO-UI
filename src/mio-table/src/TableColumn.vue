@@ -44,10 +44,19 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .mio-table-column {
+    box-sizing: border-box;
     flex: 1;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18PX;
+    font-weight: 600;
+    color: rgba(46, 46, 46, 0.8);
+    padding: 6PX 10PX;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 38PX;
 }
 </style>
