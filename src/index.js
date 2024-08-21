@@ -4,6 +4,7 @@ import MiOBreadcrumbs from "./mio-breadcrumbs";
 import MiOSelect from "./mio-select";
 import MiOList from "./mio-list";
 import MiOCard from "./mio-card";
+import MiOTable from "./mio-table";
 
 const MiOUI = {
     MiOLayouts,
@@ -11,7 +12,8 @@ const MiOUI = {
     MiOBreadcrumbs,
     MiOSelect,
     MiOList,
-    MiOCard
+    MiOCard,
+    MiOTable
 };
 
 export default MiOUI;
@@ -22,5 +24,6 @@ window.mio_ui = {
     MiOBreadcrumbs,
     MiOSelect,
     MiOList,
-    MiOCard
+    MiOCard,
+    MiOTable
 }
