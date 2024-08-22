@@ -5,6 +5,8 @@ import MiOSelect from "./mio-select";
 import MiOList from "./mio-list";
 import MiOCard from "./mio-card";
 import MiOTable from "./mio-table";
+import MiOButton from "./mio-button";
+import MiODropdown from "./mio-dropdown";
 
 const MiOUI = {
     MiOLayouts,
@@ -13,7 +15,9 @@ const MiOUI = {
     MiOSelect,
     MiOList,
     MiOCard,
-    MiOTable
+    MiOTable,
+    MiOButton,
+    MiODropdown
 };
 
 export default MiOUI;
@@ -25,5 +29,7 @@ window.mio_ui = {
     MiOSelect,
     MiOList,
     MiOCard,
-    MiOTable
+    MiOTable,
+    MiOButton,
+    MiODropdown
 }
