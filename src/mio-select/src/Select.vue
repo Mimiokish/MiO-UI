@@ -78,22 +78,22 @@ function handleClick(event) {
     _nodeSelect.classList.toggle("active");
     _nodeOptions.classList.toggle("active");
 
-    handlePopupDirection(_nodeOptions);
+    handlePopupDirection(_nodeSelect);
 }
 function handlePopupDirection(node) {
     const _node = node;
 
     if (_node) {
-        const _viewportSize = Utils.GetViewportSize();
         const _nodePosition = Utils.GetNodePosition(_node);
-        const viewableHeight = _viewportSize.height * 0.20;
+        const viewableHeight = _node.offsetHeight;
 
-        if (_nodePosition.top > viewableHeight) {
-            _node.classList.remove("bottom");
-            _node.classList.add("top");
+        const _nodeOptions = document.getElementById("MiO-Select-Options-" + UUID);
+        if ((_nodePosition.bottom * 0.96) < viewableHeight) {
+            _nodeOptions.classList.remove("bottom");
+            _nodeOptions.classList.add("top");
         } else {
-            _node.classList.remove("top");
-            _node.classList.add("bottom");
+            _nodeOptions.classList.remove("top");
+            _nodeOptions.classList.add("bottom");
         }
     }
 }
@@ -111,6 +111,11 @@ function handleDocumentClick(event) {
 
 onMounted(() => {
     document.addEventListener("click", eventDocumentClick);
+
+    const _nodeSelect = document.getElementById("MiO-Select-" + UUID);
+    if (_nodeSelect) {
+        handlePopupDirection(_nodeSelect);
+    }
 });
 
 document.addEventListener("click", eventDocumentClick);
@@ -120,7 +125,7 @@ document.addEventListener("click", eventDocumentClick);
     <div :id="'MiO-Select-' + UUID" class="mio-select" @click="handleClick">
         <div class="mio-select-placeholder" v-show="!selectValue">{{ props.placeholder }}</div>
         <div class="mio-select-label" v-show="selectValue">{{ selectLabel }}</div>
-        <div class="mio-select-icon">&#10597;</div>
+        <div class="mio-select-icon">&#10094;</div>
         <div :id="'MiO-Select-Options-' + UUID" class="mio-select-options">
             <slot />
         </div>
@@ -148,13 +153,13 @@ document.addEventListener("click", eventDocumentClick);
         cursor: pointer;
 
         .mio-select-icon {
-            color: rgba(0, 156, 156, 1);
+            opacity: 0.3;
         }
     }
 
     &.active {
         .mio-select-icon {
-            transform: rotateX(180deg);
+            transform: rotateZ(-90deg);
         }
     }
 
@@ -183,6 +188,7 @@ document.addEventListener("click", eventDocumentClick);
         display: flex;
         justify-content: center;
         align-items: center;
+        color: rgba(46, 46, 46, 0.8);
         font-size: 14PX;
         font-weight: 400;
         line-height: 32PX;
@@ -191,6 +197,7 @@ document.addEventListener("click", eventDocumentClick);
     }
 
     .mio-select-options {
+        pointer-events: none;
         position: absolute;
         background-color: rgba(255, 255, 255, 1);
         box-shadow: 0 0 6PX rgba(45, 45, 45, 0.25);
@@ -203,8 +210,7 @@ document.addEventListener("click", eventDocumentClick);
         overflow-y: auto;
         overflow-x: hidden;
         opacity: 0;
-        height: auto;
-        max-height: 0;
+        height: 0;
         -ms-overflow-style: none;
         scrollbar-width: none;
 
@@ -213,9 +219,9 @@ document.addEventListener("click", eventDocumentClick);
         }
 
         &.active {
+            pointer-events: all;
             opacity: 1;
             height: auto;
-            max-height: 300PX;
             transform: translateX(-50%) scaleY(1);
             transition-duration: 0.25s;
             transition-timing-function: ease-in-out;

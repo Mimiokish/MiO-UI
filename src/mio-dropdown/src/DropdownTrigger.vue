@@ -1,0 +1,154 @@
+<script>
+export default {
+    name: "mio-dropdown-trigger"
+}
+</script>
+
+<script setup>
+import { inject, useSlots, onMounted } from "vue";
+import Utils from "../../utils/index.js";
+
+const UUID = inject("UUID");
+const slots = useSlots();
+const eventDocumentClick = handleDocumentClick;
+
+function handleClick() {
+    const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
+    const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
+
+    _nodeDropdownMenu.classList.toggle("active");
+    _nodeDropdownTrigger.classList.toggle("active");
+
+    handlePopupDirection(_nodeDropdownMenu);
+}
+
+function handlePopupDirection(node) {
+    const _node = node;
+
+    if (_node) {
+        const _nodePosition = Utils.GetNodePosition(_node);
+        const viewableHeight = _node.offsetHeight;
+
+        const _nodeTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
+        const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
+        if ((_nodePosition.bottom * 0.96) < viewableHeight) {
+            _nodeTrigger.classList.remove("bottom");
+            _nodeDropdownMenu.classList.remove("bottom");
+            _nodeTrigger.classList.add("top");
+            _nodeDropdownMenu.classList.add("top");
+        } else {
+            _nodeTrigger.classList.remove("top");
+            _nodeDropdownMenu.classList.remove("top");
+            _nodeTrigger.classList.add("bottom");
+            _nodeDropdownMenu.classList.add("bottom");
+        }
+    }
+}
+
+function handleDocumentClick(event) {
+    const _target = event.target;
+
+    if (!_target.id.includes(UUID)) {
+        const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
+        const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
+
+        _nodeDropdownMenu.classList.remove("active");
+        _nodeDropdownTrigger.classList.remove("active");
+    }
+}
+
+onMounted(() => {
+    document.addEventListener("click", eventDocumentClick);
+
+    const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
+    if (_nodeDropdownMenu) {
+        handlePopupDirection(_nodeDropdownMenu);
+    }
+
+    const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
+    if (_nodeDropdownTrigger) {
+        handlePopupDirection(_nodeDropdownTrigger);
+    }
+});
+</script>
+
+<template>
+    <div :id="'MiO-Dropdown-Trigger-' + UUID" class="mio-dropdown-trigger" @click="handleClick">
+        <div v-if="!slots['icon']" class="mio-dropdown-trigger-label">
+            <slot />
+        </div>
+        <template v-else>
+            <div class="mio-dropdown-trigger-label">
+                <slot name="label" />
+            </div>
+            <div class="mio-dropdown-trigger-icon">
+                <slot name="icon" />
+            </div>
+        </template>
+    </div>
+</template>
+
+<style scoped lang="scss">
+.mio-dropdown-trigger {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .mio-dropdown-trigger-label {
+        pointer-events: none;
+        flex: 1;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 6PX 16PX;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgba(46, 46, 46, 0.8);
+        font-size: 16PX;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .mio-dropdown-trigger-icon {
+        pointer-events: none;
+        flex: 0 0 26PX;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgba(46, 46, 46, 0.8);
+        font-size: 16PX;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
+    }
+
+    &.top {
+        &.active {
+            .mio-dropdown-trigger-icon {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &.bottom {
+        &.active {
+            .mio-dropdown-trigger-icon {
+                transform: rotate(-90deg);
+            }
+        }
+    }
+}
+</style>

@@ -57,6 +57,11 @@ const app = createApp({
                     <mio-select-option v-for="option in options" :key="'select-option-' + option.key" :value="option.value" :label="option.label"></mio-select-option>
                 </mio-select>
             </div>
+            <div>
+                <mio-select v-model="value">
+                    <mio-select-option v-for="option in options" :key="'select-option-' + option.key" :value="option.value" :label="option.label"></mio-select-option>
+                </mio-select>
+            </div>
         </div>
     `,
     mounted() {
