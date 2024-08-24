@@ -34,6 +34,10 @@ const UUID = inject("UUID");
         cursor: pointer;
     }
 
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     &.active {
         transform: translateX(-50%) scale(1);
         pointer-events: auto;

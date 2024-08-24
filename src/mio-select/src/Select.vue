@@ -78,23 +78,21 @@ function handleClick(event) {
     _nodeSelect.classList.toggle("active");
     _nodeOptions.classList.toggle("active");
 
-    handlePopupDirection(_nodeSelect);
+    handlePopupDirection();
 }
 function handlePopupDirection(node) {
-    const _node = node;
+    const _nodeSelect = document.getElementById("MiO-Select-" + UUID);
+    const _nodeSelectOptions = document.getElementById("MiO-Select-Options-" + UUID);
 
-    if (_node) {
-        const _nodePosition = Utils.GetNodePosition(_node);
-        const viewableHeight = _node.offsetHeight;
+    const _selectPosition = Utils.GetNodePosition(_nodeSelect);
+    const _selectOptionsHeight = _nodeSelectOptions.offsetHeight;
 
-        const _nodeOptions = document.getElementById("MiO-Select-Options-" + UUID);
-        if ((_nodePosition.bottom * 0.96) < viewableHeight) {
-            _nodeOptions.classList.remove("bottom");
-            _nodeOptions.classList.add("top");
-        } else {
-            _nodeOptions.classList.remove("top");
-            _nodeOptions.classList.add("bottom");
-        }
+    if ((_selectPosition.bottom * 0.96) < _selectOptionsHeight) {
+        _nodeSelectOptions.classList.remove("bottom");
+        _nodeSelectOptions.classList.add("top");
+    } else {
+        _nodeSelectOptions.classList.remove("top");
+        _nodeSelectOptions.classList.add("bottom");
     }
 }
 function handleDocumentClick(event) {
@@ -112,13 +110,8 @@ function handleDocumentClick(event) {
 onMounted(() => {
     document.addEventListener("click", eventDocumentClick);
 
-    const _nodeSelect = document.getElementById("MiO-Select-" + UUID);
-    if (_nodeSelect) {
-        handlePopupDirection(_nodeSelect);
-    }
+    handlePopupDirection();
 });
-
-document.addEventListener("click", eventDocumentClick);
 </script>
 
 <template>
@@ -197,46 +190,43 @@ document.addEventListener("click", eventDocumentClick);
     }
 
     .mio-select-options {
+        transform: translateX(-50%) scaleY(0);
         pointer-events: none;
         position: absolute;
-        background-color: rgba(255, 255, 255, 1);
-        box-shadow: 0 0 6PX rgba(45, 45, 45, 0.25);
         left: 50%;
-        transform: translateX(-50%) scaleY(0);
-        width: 95%;
         display: flex;
         flex-direction: column;
         border-radius: 4PX;
         overflow-y: auto;
         overflow-x: hidden;
-        opacity: 0;
-        height: 0;
+        opacity: 0.5;
+        height: auto;
+        background-color: rgba(255, 255, 255, 1);
+        box-shadow: 0 0 6PX rgba(45, 45, 45, 0.25);
         -ms-overflow-style: none;
         scrollbar-width: none;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
 
         &::-webkit-scrollbar {
             display: none;
         }
 
         &.active {
-            pointer-events: all;
+            transform: translateX(-50%) scaleY(1);
+            pointer-events: auto;
             opacity: 1;
             height: auto;
-            transform: translateX(-50%) scaleY(1);
-            transition-duration: 0.25s;
-            transition-timing-function: ease-in-out;
+        }
 
-            &.top {
-                transform-origin: bottom;
-                top: auto;
-                bottom: 120%;
-            }
+        &.top {
+            transform-origin: bottom center;
+            bottom: 120%;
+        }
 
-            &.bottom {
-                transform-origin: top;
-                top: 120%;
-                bottom: auto;
-            }
+        &.bottom {
+            transform-origin: top center;
+            top: 120%;
         }
     }
 }
