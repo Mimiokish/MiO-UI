@@ -55,6 +55,34 @@ const app = createApp({
                     </template>
                 </mio-dropdown-menu>
             </mio-dropdown>
+            <div>-----------------Divider-----------------</div>
+            <mio-dropdown width="200PX">
+                <mio-dropdown-trigger>
+                    <template #label>Trigger with icon</template>
+                    <template #icon>&#10094;</template>
+                </mio-dropdown-trigger>
+                <mio-dropdown-menu>
+                    <template v-for="(item, idxMenu) in menu" :key="'MiO-Dropdown-Menu-Item-' + idxMenu">
+                        <mio-dropdown-menu-item v-if="item.key === 'logout'" @click="item.fn">
+                            {{ item.label['en-US'] }}
+                        </mio-dropdown-menu-item>
+                        <mio-dropdown-menu-item v-else :label="item.label['en-US']" @click="item.fn"></mio-dropdown-menu-item>
+                    </template>
+                </mio-dropdown-menu>
+            </mio-dropdown>
+            <div>-----------------Divider-----------------</div>
+            <mio-dropdown>
+                <mio-dropdown-trigger>Trigger</mio-dropdown-trigger>
+                <mio-dropdown-menu>
+                    <template v-for="(item, idxMenu) in menu" :key="'MiO-Dropdown-Menu-Item-' + idxMenu">
+                        <mio-dropdown-menu-item v-if="item.key === 'logout'" @click="item.fn">
+                            {{ item.label['en-US'] }}
+                        </mio-dropdown-menu-item>
+                        <mio-dropdown-menu-item v-else :label="item.label['en-US']" @click="item.fn"></mio-dropdown-menu-item>
+                    </template>
+                </mio-dropdown-menu>
+            </mio-dropdown>
+            <div>-----------------Divider-----------------</div>
             <mio-dropdown width="200PX">
                 <mio-dropdown-trigger>
                     <template #label>Trigger with icon</template>

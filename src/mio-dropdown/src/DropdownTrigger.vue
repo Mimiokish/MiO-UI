@@ -19,29 +19,27 @@ function handleClick() {
     _nodeDropdownMenu.classList.toggle("active");
     _nodeDropdownTrigger.classList.toggle("active");
 
-    handlePopupDirection(_nodeDropdownMenu);
+    handlePopupDirection();
 }
 
-function handlePopupDirection(node) {
-    const _node = node;
+function handlePopupDirection() {
+    const _nodeDropdown = document.getElementById("MiO-Dropdown-" + UUID);
+    const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
+    const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
 
-    if (_node) {
-        const _nodePosition = Utils.GetNodePosition(_node);
-        const viewableHeight = _node.offsetHeight;
+    const _dropdownPosition = Utils.GetNodePosition(_nodeDropdown);
+    const dropdownHeight = _nodeDropdown.offsetHeight;
 
-        const _nodeTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
-        const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
-        if ((_nodePosition.bottom * 0.96) < viewableHeight) {
-            _nodeTrigger.classList.remove("bottom");
-            _nodeDropdownMenu.classList.remove("bottom");
-            _nodeTrigger.classList.add("top");
-            _nodeDropdownMenu.classList.add("top");
-        } else {
-            _nodeTrigger.classList.remove("top");
-            _nodeDropdownMenu.classList.remove("top");
-            _nodeTrigger.classList.add("bottom");
-            _nodeDropdownMenu.classList.add("bottom");
-        }
+    if ((_dropdownPosition.bottom * 0.96) < dropdownHeight) {
+        _nodeDropdownTrigger.classList.remove("bottom");
+        _nodeDropdownMenu.classList.remove("bottom");
+        _nodeDropdownTrigger.classList.add("top");
+        _nodeDropdownMenu.classList.add("top");
+    } else {
+        _nodeDropdownTrigger.classList.remove("top");
+        _nodeDropdownMenu.classList.remove("top");
+        _nodeDropdownTrigger.classList.add("bottom");
+        _nodeDropdownMenu.classList.add("bottom");
     }
 }
 
@@ -49,26 +47,18 @@ function handleDocumentClick(event) {
     const _target = event.target;
 
     if (!_target.id.includes(UUID)) {
-        const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
         const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
+        const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
 
-        _nodeDropdownMenu.classList.remove("active");
         _nodeDropdownTrigger.classList.remove("active");
+        _nodeDropdownMenu.classList.remove("active");
     }
 }
 
 onMounted(() => {
     document.addEventListener("click", eventDocumentClick);
 
-    const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
-    if (_nodeDropdownMenu) {
-        handlePopupDirection(_nodeDropdownMenu);
-    }
-
-    const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
-    if (_nodeDropdownTrigger) {
-        handlePopupDirection(_nodeDropdownTrigger);
-    }
+    handlePopupDirection();
 });
 </script>
 

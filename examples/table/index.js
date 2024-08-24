@@ -49,7 +49,7 @@ const app = createApp({
                 <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
                     <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
                         <template #body>
-                            <button>按钮</button>
+                            <mio-button>按钮</mio-button>
                         </template>
                     </mio-table-column>
                     <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
@@ -67,6 +67,7 @@ const app = createApp({
     }
 });
 
+mio_ui.MiOButton.install(app);
 mio_ui.MiOTable.install(app);
 
 app.mount('#MiO-UI');
