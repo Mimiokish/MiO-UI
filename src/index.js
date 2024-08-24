@@ -22,14 +22,14 @@ const MiOUI = {
 
 export default MiOUI;
 // TO DELETE: test code
-window.mio_ui = {
-    MiOLayouts,
-    MiOMenus,
-    MiOBreadcrumbs,
-    MiOSelect,
-    MiOList,
-    MiOCard,
-    MiOTable,
-    MiOButton,
-    MiODropdown
-}
+// window.mio_ui = {
+//     MiOLayouts,
+//     MiOMenus,
+//     MiOBreadcrumbs,
+//     MiOSelect,
+//     MiOList,
+//     MiOCard,
+//     MiOTable,
+//     MiOButton,
+//     MiODropdown
+// }
