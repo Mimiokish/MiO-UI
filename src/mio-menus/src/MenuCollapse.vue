@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup>
-import { inject, ref } from "vue";
+import { inject, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -20,8 +20,15 @@ const props = defineProps({
     url: {
         type: String,
         required: false
+    },
+    collapsed: {
+        type: Boolean,
+        required: false,
+        default: true
     }
 });
+
+const emits = defineEmits(["update:collapsed"]);
 
 const updateMethods = inject("updateMethods");
 const active = inject("active");
@@ -32,6 +39,7 @@ function handleCollapse(event) {
     if (event.target.className === "mio-menu-collapse-icon") {
         event.stopPropagation();
         isCollapse.value = !isCollapse.value;
+        emits("update:collapsed", isCollapse.value);
         updateMethods.setActive(props.index);
     } else {
         if (props.path || props.url) {
@@ -45,10 +53,15 @@ function handleCollapse(event) {
             updateMethods.setActive(props.index);
         } else {
             isCollapse.value = !isCollapse.value;
+            emits("update:collapsed", isCollapse.value);
             updateMethods.setActive(props.index);
         }
     }
 }
+
+watch(() => props.collapsed, (newValue) => {
+    isCollapse.value = newValue;
+}, { immediate: true });
 </script>
 
 <template>

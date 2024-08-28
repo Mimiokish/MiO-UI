@@ -18,7 +18,7 @@ const props = defineProps({
         default: "select an option"
     }
 });
-const emit = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue"]);
 
 const UUID = Utils.GenerateUUID();
 const selectLabel = ref(null);
@@ -64,7 +64,7 @@ watch(() => props.modelValue, (value) => {
     }
 }, { immediate: true });
 watch(() => selectValue.value, (value) => {
-    emit("update:modelValue", value);
+    emits("update:modelValue", value);
 })
 
 function updateValue(key, value, label) {
@@ -75,10 +75,12 @@ function handleClick(event) {
     const _nodeSelect = document.getElementById("MiO-Select-" + UUID);
     const _nodeOptions = document.getElementById("MiO-Select-Options-" + UUID);
 
-    _nodeSelect.classList.toggle("active");
-    _nodeOptions.classList.toggle("active");
+    if (_nodeSelect && _nodeOptions) {
+        _nodeSelect.classList.toggle("active");
+        _nodeOptions.classList.toggle("active");
 
-    handlePopupDirection();
+        handlePopupDirection();
+    }
 }
 function handlePopupDirection(node) {
     const _nodeSelect = document.getElementById("MiO-Select-" + UUID);

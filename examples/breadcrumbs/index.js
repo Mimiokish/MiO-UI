@@ -43,6 +43,6 @@ const app = createApp({
     }
 });
 
-mio_ui.MiOBreadcrumbs.install(app);
+MiOUI.MiOBreadcrumbs.install(app);
 
 app.mount('#MiO-UI');

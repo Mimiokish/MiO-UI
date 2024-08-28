@@ -71,6 +71,6 @@ const app = createApp({
     }
 });
 
-mio_ui.MiOSelect.install(app);
+MiOUI.MiOSelect.install(app);
 
 app.mount('#MiO-UI');

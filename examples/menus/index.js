@@ -39,6 +39,7 @@ const router = VueRouter.createRouter({
 const app = createApp({
     data() {
         return {
+            isCollapsed: false,
             menus: [
                 {
                     label: {
@@ -115,7 +116,7 @@ const app = createApp({
                         <div class="menu-icon">&#8457;</div>
                         <div class="menu-label">Menu | 2</div>
                     </mio-menu-item>
-                    <mio-menu-collapse index="3">
+                    <mio-menu-collapse index="3" v-model:collapsed="isCollapsed">
                         <template #title>
                             <div class="menu-icon">&#8456;</div>
                             <div class="menu-label">Menu | 3</div>
@@ -136,7 +137,7 @@ const app = createApp({
                         </template>
                     </mio-menu-collapse>
                 </mio-menus>
-                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 60PX;">----------divider----------</div>
+                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 60PX;">----------divider ({{ isCollapsed }})----------</div>
                 <mio-menus>
                     <template v-for="(menu, idxMenu) in menus" :key="'menu-' + idxMenu">
                         <mio-menu-item v-if="!menu.children" :index="(idxMenu + 1)" :url="menu.url" :path="menu.path">
@@ -178,7 +179,7 @@ const app = createApp({
     `
 });
 
-mio_ui.MiOMenus.install(app);
+MiOUI.MiOMenus.install(app);
 
 app.use(router);
 app.mount('#MiO-UI');

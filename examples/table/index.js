@@ -67,7 +67,7 @@ const app = createApp({
     }
 });
 
-mio_ui.MiOButton.install(app);
-mio_ui.MiOTable.install(app);
+MiOUI.MiOButton.install(app);
+MiOUI.MiOTable.install(app);
 
 app.mount('#MiO-UI');

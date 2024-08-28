@@ -21,6 +21,6 @@ const app = createApp({
     `
 });
 
-mio_ui.MiOCard.install(app);
+MiOUI.MiOCard.install(app);
 
 app.mount('#MiO-UI');

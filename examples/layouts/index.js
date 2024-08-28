@@ -18,6 +18,6 @@ const app = createApp({
     `
 });
 
-mio_ui.MiOLayouts.install(app);
+MiOUI.MiOLayouts.install(app);
 
 app.mount('#MiO-UI');

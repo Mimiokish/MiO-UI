@@ -101,6 +101,6 @@ const app = createApp({
     `
 });
 
-mio_ui.MiODropdown.install(app);
+MiOUI.MiODropdown.install(app);
 
 app.mount('#MiO-UI');

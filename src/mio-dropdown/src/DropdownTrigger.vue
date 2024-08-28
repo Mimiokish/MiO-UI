@@ -16,10 +16,12 @@ function handleClick() {
     const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
     const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
 
-    _nodeDropdownMenu.classList.toggle("active");
-    _nodeDropdownTrigger.classList.toggle("active");
+    if (_nodeDropdownMenu && _nodeDropdownTrigger) {
+        _nodeDropdownMenu.classList.toggle("active");
+        _nodeDropdownTrigger.classList.toggle("active");
 
-    handlePopupDirection();
+        handlePopupDirection();
+    }
 }
 
 function handlePopupDirection() {

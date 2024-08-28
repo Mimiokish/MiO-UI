@@ -73,6 +73,6 @@ const app = createApp({
     `
 });
 
-mio_ui.MiOList.install(app);
+MiOUI.MiOList.install(app);
 
 app.mount('#MiO-UI');
