@@ -31,11 +31,13 @@ const props = defineProps({
 const emits = defineEmits(["update:collapsed"]);
 const router = useRouter();
 
-const UUID = Utils.GenerateUUID();
 const updateMethods = inject("updateMethods");
 const configs = inject("configs");
 const active = inject("active");
+const UUID = Utils.GenerateUUID();
 const isCollapsed = ref(true);
+let collapseId = null;
+let expandId = null;
 
 function handleCollapse(event) {
     if (!configs.accordion) {
@@ -60,7 +62,7 @@ function handleCollapseAccordion(event) {
         isCollapsed.value = !isCollapsed.value;
         emits("update:collapsed", isCollapsed.value);
 
-        // calculateTransition();
+        handleAnimations();
     } else {
         if (props.path || props.url) {
             if (props.url) {
@@ -81,25 +83,59 @@ function handleCollapseAccordion(event) {
             isCollapsed.value = !isCollapsed.value;
             emits("update:collapsed", isCollapsed.value);
 
-            // calculateTransition();
+            handleAnimations();
         }
     }
 }
 
-function calculateTransition() {
-    const nodeCollapseContent = document.getElementById('MiO-Menu-Collapse-Content-' + UUID);
-    if (nodeCollapseContent) {
-        const baseDuration = 200;
-        const heightFactor = 100;
-        const duration = baseDuration + (nodeCollapseContent.scrollHeight / heightFactor) * 100;
-        nodeCollapseContent.style.transitionDuration = duration + "ms";
+function handleAnimations() {
+    if (isCollapsed.value) {
+        collapse();
+    } else {
+        expand();
+    }
+}
 
-        if (nodeCollapseContent.classList.contains("collapsed")) {
-            nodeCollapseContent.style.maxHeight = nodeCollapseContent.scrollHeight + "PX";
-            // nodeCollapseContent.style.transform = "translateY(0)";
-        } else {
-            nodeCollapseContent.style.maxHeight = null;
-            // nodeCollapseContent.style.transform = "translateY(-" + nodeCollapseContent.scrollHeight + "PX)";
+function collapse() {
+    const nodeContent = document.getElementById('MiO-Menu-Collapse-Content-' + UUID);
+    if (!nodeContent) {
+        return false;
+    } else {
+        clearInterval(expandId);
+        clearInterval(collapseId);
+        let maxHeight = nodeContent.scrollHeight;
+        collapseId = setInterval(frame, 10);
+
+        function frame() {
+            if (maxHeight <= 0) {
+                nodeContent.style.maxHeight = "0";
+                clearInterval(collapseId);
+            } else {
+                maxHeight -= 5;
+                nodeContent.style.maxHeight = maxHeight + "PX";
+            }
+        }
+    }
+}
+
+function expand() {
+    const nodeContent = document.getElementById('MiO-Menu-Collapse-Content-' + UUID);
+    if (!nodeContent) {
+        return false;
+    } else {
+        clearInterval(collapseId);
+        clearInterval(expandId);
+        let maxHeight = 0;
+        expandId = setInterval(frame, 10);
+
+        function frame() {
+            if (maxHeight >= nodeContent.scrollHeight) {
+                nodeContent.style.maxHeight = null;
+                clearInterval(expandId);
+            } else {
+                maxHeight += 5;
+                nodeContent.style.maxHeight = maxHeight + "PX";
+            }
         }
     }
 }
@@ -107,6 +143,10 @@ function calculateTransition() {
 watch(() => props.collapsed, (newValue) => {
     isCollapsed.value = newValue;
 }, { immediate: true, deep: true });
+
+onMounted(() => {
+    handleAnimations();
+})
 </script>
 
 <template>
@@ -130,6 +170,7 @@ watch(() => props.collapsed, (newValue) => {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 38PX;
 
     .mio-menu-collapse-title {
         z-index: 2;
@@ -182,22 +223,22 @@ watch(() => props.collapsed, (newValue) => {
         opacity: 1;
         display: flex;
         flex-direction: column;
-        height: auto;
-        max-height: 600PX;
-        transform: translateY(0);
+        //transform: translateY(0);
         transform-origin: top center;
-        transition-duration: 1s, 0.5s, 0.5s;
-        transition-property: max-height, opacity, transform;
-        transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+        transition-duration: 0.5s, 0.5s;
+        transition-property: opacity, transform;
+        //transition-property: max-height, opacity, transform;
+        //transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
 
         &.collapsed {
             pointer-events: none;
             opacity: 0;
-            max-height: 0;
-            transform: translateY(-200PX);
-            transition-duration: 0.4s, 0.5s, 0.5s;
-            transition-property: max-height, opacity, transform;
-            transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+            //transform: translateY(-200PX);
+            transition-duration: 0.5s, 0.5s;
+            transition-property: opacity, transform;
+            transition-timing-function: ease-in-out, ease-in-out;
+            //transition-property: max-height, opacity, transform;
+            //transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
         }
     }
 }

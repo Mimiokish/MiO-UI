@@ -136,7 +136,7 @@ const app = createApp({
                         <div class="menu-icon">&#8457;</div>
                         <div class="menu-label">Menu | 3</div>
                     </mio-menu-item>
-                    <mio-menu-collapse index="4" :collapsed="true">
+                    <mio-menu-collapse index="4">
                         <template #title>
                             <div class="menu-icon">&#8456;</div>
                             <div class="menu-label">Menu | 4</div>
@@ -146,18 +146,34 @@ const app = createApp({
                                 <div class="menu-icon">&#8449;</div>
                                 <div class="menu-label">Menu | 4-1</div>
                             </mio-menu-item>
-                            <mio-menu-item index="4-2">
+                            <mio-menu-collapse index="4-2">
+                                <template #title>
+                                    <div class="menu-icon">&#8456;</div>
+                                    <div class="menu-label">Menu | 4-2</div>
+                                </template>
+                                <template #content>
+                                    <mio-menu-item index="4-2-1">
+                                        <div class="menu-icon">&#8449;</div>
+                                        <div class="menu-label">Menu | 4-2-1</div>
+                                    </mio-menu-item>
+                                    <mio-menu-item index="4-2-2">
+                                        <div class="menu-icon">&#8455;</div>
+                                        <div class="menu-label">Menu | 4-2-2</div>
+                                    </mio-menu-item>
+                                </template>
+                            </mio-menu-collapse>
+                            <mio-menu-item index="4-3">
                                 <div class="menu-icon">&#8455;</div>
                                 <div class="menu-label">Menu | 4-2</div>
                             </mio-menu-item>
-                            <mio-menu-item index="4-3">
+                            <mio-menu-item index="4-4">
                                 <div class="menu-icon">&#8468;</div>
                                 <div class="menu-label">Menu | 4-3</div>
                             </mio-menu-item>
                         </template>
                     </mio-menu-collapse>
                 </mio-menus>
-                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 60PX;">----------divider ({{ isCollapsed }})----------</div>
+                <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 60PX;">----------divider----------</div>
                 <mio-menus>
                     <template v-for="(menu, idxMenu) in menus" :key="'menu-' + idxMenu">
                         <mio-menu-item v-if="!menu.children" :index="(idxMenu + 1)" :url="menu.url" :path="menu.path">

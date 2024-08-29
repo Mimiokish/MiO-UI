@@ -14,6 +14,11 @@ const props = defineProps({
         required: false,
         default: false
     },
+    collapseWidth: {
+        type: Number,
+        required: false,
+        default: 30
+    },
     accordion: {
         type: Boolean,
         required: false,
@@ -46,6 +51,7 @@ function setActive(value) {
 
 <style lang="scss">
 .mio-menus {
+    height: auto;
     font-size: 18PX;
     line-height: 38PX;
     font-weight: 500;
