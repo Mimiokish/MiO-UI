@@ -136,7 +136,7 @@ const app = createApp({
                         <div class="menu-icon">&#8457;</div>
                         <div class="menu-label">Menu | 3</div>
                     </mio-menu-item>
-                    <mio-menu-collapse index="4" :collapsed="false">
+                    <mio-menu-collapse index="4" :collapsed="true">
                         <template #title>
                             <div class="menu-icon">&#8456;</div>
                             <div class="menu-label">Menu | 4</div>

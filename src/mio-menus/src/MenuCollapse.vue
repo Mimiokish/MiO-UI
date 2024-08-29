@@ -5,8 +5,9 @@ export default {
 </script>
 
 <script setup>
-import { inject, ref, watch } from "vue";
+import { inject, ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import Utils from "../../utils/index.js";
 
 const props = defineProps({
     index: {
@@ -30,6 +31,7 @@ const props = defineProps({
 const emits = defineEmits(["update:collapsed"]);
 const router = useRouter();
 
+const UUID = Utils.GenerateUUID();
 const updateMethods = inject("updateMethods");
 const configs = inject("configs");
 const active = inject("active");
@@ -50,9 +52,15 @@ function handleCollapseDefault(event) {
 function handleCollapseAccordion(event) {
     if (event.target.className === "mio-menu-collapse-icon") {
         event.stopPropagation();
+
+        // set active
+        updateMethods.setActive(props.index);
+
+        // set collapse
         isCollapsed.value = !isCollapsed.value;
         emits("update:collapsed", isCollapsed.value);
-        updateMethods.setActive(props.index);
+
+        // calculateTransition();
     } else {
         if (props.path || props.url) {
             if (props.url) {
@@ -62,11 +70,36 @@ function handleCollapseAccordion(event) {
             if (props.path) {
                 router.push(props.path);
             }
+
+            // set active
             updateMethods.setActive(props.index);
         } else {
+            // set active
+            updateMethods.setActive(props.index);
+
+            // set collapse
             isCollapsed.value = !isCollapsed.value;
             emits("update:collapsed", isCollapsed.value);
-            updateMethods.setActive(props.index);
+
+            // calculateTransition();
+        }
+    }
+}
+
+function calculateTransition() {
+    const nodeCollapseContent = document.getElementById('MiO-Menu-Collapse-Content-' + UUID);
+    if (nodeCollapseContent) {
+        const baseDuration = 200;
+        const heightFactor = 100;
+        const duration = baseDuration + (nodeCollapseContent.scrollHeight / heightFactor) * 100;
+        nodeCollapseContent.style.transitionDuration = duration + "ms";
+
+        if (nodeCollapseContent.classList.contains("collapsed")) {
+            nodeCollapseContent.style.maxHeight = nodeCollapseContent.scrollHeight + "PX";
+            // nodeCollapseContent.style.transform = "translateY(0)";
+        } else {
+            nodeCollapseContent.style.maxHeight = null;
+            // nodeCollapseContent.style.transform = "translateY(-" + nodeCollapseContent.scrollHeight + "PX)";
         }
     }
 }
@@ -77,12 +110,12 @@ watch(() => props.collapsed, (newValue) => {
 </script>
 
 <template>
-    <div class="mio-menu-collapse">
+    <div :id="'MiO-Menu-Collapse-' + UUID" class="mio-menu-collapse">
         <div class="mio-menu-collapse-title" :class="isCollapsed ? (active === props.index ? 'active collapsed' : 'collapsed') : (active === props.index ? 'active' : '')" @click="handleCollapse">
             <slot name="title" />
             <div class="mio-menu-collapse-icon" @click="handleCollapse">&#10094;</div>
         </div>
-        <div class="mio-menu-collapse-content" :class="isCollapsed ? 'collapsed' : ''">
+        <div :id="'MiO-Menu-Collapse-Content-' + UUID" class="mio-menu-collapse-content" :class="isCollapsed ? 'collapsed' : ''">
             <slot name="content" />
             <slot />
         </div>
@@ -91,6 +124,7 @@ watch(() => props.collapsed, (newValue) => {
 
 <style lang="scss">
 .mio-menu-collapse {
+    position: relative;
     box-sizing: border-box;
     margin-left: 16PX;
     display: flex;
@@ -98,6 +132,7 @@ watch(() => props.collapsed, (newValue) => {
     overflow: hidden;
 
     .mio-menu-collapse-title {
+        z-index: 2;
         position: relative;
         display: flex;
         overflow: hidden;
@@ -142,20 +177,27 @@ watch(() => props.collapsed, (newValue) => {
     }
 
     .mio-menu-collapse-content {
-        display: flex;
-        flex-direction: column;
-        transform: translateY(0);
-        transition-duration: 0.25s;
-        transition-timing-function: ease-in-out;
+        z-index: 1;
         overflow: hidden;
         opacity: 1;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        max-height: 600PX;
+        transform: translateY(0);
+        transform-origin: top center;
+        transition-duration: 1s, 0.5s, 0.5s;
+        transition-property: max-height, opacity, transform;
+        transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
 
         &.collapsed {
-            overflow: hidden;
-            transform: translateY(-30%);
-            height: 0;
             pointer-events: none;
             opacity: 0;
+            max-height: 0;
+            transform: translateY(-200PX);
+            transition-duration: 0.4s, 0.5s, 0.5s;
+            transition-property: max-height, opacity, transform;
+            transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
         }
     }
 }
