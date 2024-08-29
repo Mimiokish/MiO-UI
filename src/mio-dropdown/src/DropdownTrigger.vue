@@ -29,19 +29,23 @@ function handlePopupDirection() {
     const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
     const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
 
-    const _dropdownPosition = Utils.GetNodePosition(_nodeDropdown);
-    const dropdownHeight = _nodeDropdown.offsetHeight;
-
-    if ((_dropdownPosition.bottom * 0.96) < dropdownHeight) {
-        _nodeDropdownTrigger.classList.remove("bottom");
-        _nodeDropdownMenu.classList.remove("bottom");
-        _nodeDropdownTrigger.classList.add("top");
-        _nodeDropdownMenu.classList.add("top");
+    if (!_nodeDropdown || !_nodeDropdownMenu || !_nodeDropdownTrigger) {
+        return false;
     } else {
-        _nodeDropdownTrigger.classList.remove("top");
-        _nodeDropdownMenu.classList.remove("top");
-        _nodeDropdownTrigger.classList.add("bottom");
-        _nodeDropdownMenu.classList.add("bottom");
+        const _dropdownPosition = Utils.GetNodePosition(_nodeDropdown);
+        const dropdownHeight = _nodeDropdown.offsetHeight;
+
+        if ((_dropdownPosition.bottom * 0.96) < dropdownHeight) {
+            _nodeDropdownTrigger.classList.remove("bottom");
+            _nodeDropdownMenu.classList.remove("bottom");
+            _nodeDropdownTrigger.classList.add("top");
+            _nodeDropdownMenu.classList.add("top");
+        } else {
+            _nodeDropdownTrigger.classList.remove("top");
+            _nodeDropdownMenu.classList.remove("top");
+            _nodeDropdownTrigger.classList.add("bottom");
+            _nodeDropdownMenu.classList.add("bottom");
+        }
     }
 }
 
@@ -52,8 +56,10 @@ function handleDocumentClick(event) {
         const _nodeDropdownTrigger = document.getElementById("MiO-Dropdown-Trigger-" + UUID);
         const _nodeDropdownMenu = document.getElementById("MiO-Dropdown-Menu-" + UUID);
 
-        _nodeDropdownTrigger.classList.remove("active");
-        _nodeDropdownMenu.classList.remove("active");
+        if (_nodeDropdownTrigger && _nodeDropdownMenu) {
+            _nodeDropdownTrigger.classList.remove("active");
+            _nodeDropdownMenu.classList.remove("active");
+        }
     }
 }
 

@@ -13,12 +13,21 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false
+    },
+    accordion: {
+        type: Boolean,
+        required: false,
+        default: true
     }
 })
 
 const UUID = Utils.GenerateUUID();
 const active = ref(null);
 
+provide("configs", {
+    collapse: props.collapse,
+    accordion: props.accordion
+});
 provide("active", active);
 provide("updateMethods", {
     setActive: setActive

@@ -27,19 +27,31 @@ const props = defineProps({
         default: true
     }
 });
-
 const emits = defineEmits(["update:collapsed"]);
-
-const updateMethods = inject("updateMethods");
-const active = inject("active");
-const isCollapse = ref(true);
 const router = useRouter();
 
+const updateMethods = inject("updateMethods");
+const configs = inject("configs");
+const active = inject("active");
+const isCollapsed = ref(true);
+
 function handleCollapse(event) {
+    if (!configs.accordion) {
+        handleCollapseAccordion(event);
+    } else {
+        handleCollapseAccordion(event);
+    }
+}
+
+function handleCollapseDefault(event) {
+
+}
+
+function handleCollapseAccordion(event) {
     if (event.target.className === "mio-menu-collapse-icon") {
         event.stopPropagation();
-        isCollapse.value = !isCollapse.value;
-        emits("update:collapsed", isCollapse.value);
+        isCollapsed.value = !isCollapsed.value;
+        emits("update:collapsed", isCollapsed.value);
         updateMethods.setActive(props.index);
     } else {
         if (props.path || props.url) {
@@ -52,25 +64,25 @@ function handleCollapse(event) {
             }
             updateMethods.setActive(props.index);
         } else {
-            isCollapse.value = !isCollapse.value;
-            emits("update:collapsed", isCollapse.value);
+            isCollapsed.value = !isCollapsed.value;
+            emits("update:collapsed", isCollapsed.value);
             updateMethods.setActive(props.index);
         }
     }
 }
 
 watch(() => props.collapsed, (newValue) => {
-    isCollapse.value = newValue;
-}, { immediate: true });
+    isCollapsed.value = newValue;
+}, { immediate: true, deep: true });
 </script>
 
 <template>
     <div class="mio-menu-collapse">
-        <div class="mio-menu-collapse-title" :class="active === props.index ? (isCollapse ? 'active' : 'active collapsed') : (isCollapse ? '' : 'collapsed')" @click="handleCollapse">
+        <div class="mio-menu-collapse-title" :class="isCollapsed ? (active === props.index ? 'active collapsed' : 'collapsed') : (active === props.index ? 'active' : '')" @click="handleCollapse">
             <slot name="title" />
             <div class="mio-menu-collapse-icon" @click="handleCollapse">&#10094;</div>
         </div>
-        <div class="mio-menu-collapse-content" :class="isCollapse ? 'collapsed' : ''">
+        <div class="mio-menu-collapse-content" :class="isCollapsed ? 'collapsed' : ''">
             <slot name="content" />
             <slot />
         </div>
@@ -107,7 +119,7 @@ watch(() => props.collapsed, (newValue) => {
 
         &.collapsed {
             .mio-menu-collapse-icon {
-                transform: translateY(-50%) rotate(90deg);
+                transform: translateY(-50%);
             }
         }
 
@@ -115,7 +127,7 @@ watch(() => props.collapsed, (newValue) => {
             position: absolute;
             right: 10PX;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(-50%) rotate(-90deg);
             width: 26PX;
             height: 26PX;
             display: flex;
