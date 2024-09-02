@@ -15,6 +15,10 @@
         "eslint:recommended",
         "plugin:vue/vue3-recommended"
     ],
+    "excludeFiles": [
+        "node_modules",
+        "build"
+    ],
     "plugins": [
         "vue"
     ],

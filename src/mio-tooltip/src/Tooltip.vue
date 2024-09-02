@@ -1,0 +1,117 @@
+<script>
+export default {
+    name: "mio-tooltip"
+}
+</script>
+
+<script setup>
+import { ref, useSlots, computed, cloneVNode, onMounted, watch } from "vue";
+import Utils from "../../utils/index.js";
+
+const props = defineProps({
+    content: {
+        type: String,
+        required: true,
+        default: ""
+    },
+    placement: {
+        type: String,
+        required: false,
+        default: "top"
+    },
+    offset: {
+        type: Number,
+        required: false,
+        default: 6
+    }
+});
+
+const _content = ref(props.content);
+const _placement = ref(props.placement);
+const _offset = ref(props.offset);
+
+const UUID = Utils.GenerateUUID();
+const slots = useSlots();
+
+const slot = computed(() => {
+    const slotDefault = slots.default && slots.default()[0];
+
+    if (slotDefault) {
+        return cloneVNode(slotDefault, {
+            class: (slotDefault.props?.class || '') + ' mio-tooltip MiO-Tooltip-' + UUID,
+            style: {
+                ...slotDefault.props?.style,
+                position: "relative"
+            },
+            onMouseenter: handleMouseEnter,
+            onMouseleave: handleMouseLeave
+        });
+    }
+})
+
+function handleMouseEnter(event) {
+    const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
+    const _nodeTooltip = document.getElementsByClassName("MiO-Tooltip-" + UUID);
+
+    if (_nodeTooltipContent && _nodeTooltip) {
+        Utils.PopoverShowNode(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
+    }
+}
+
+function handleMouseLeave(event) {
+    const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
+
+    if (_nodeTooltipContent) {
+        Utils.PopoverHideNode(_nodeTooltipContent);
+    }
+}
+
+function popoverAppend() {
+    const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
+    const _nodeTooltip = document.getElementsByClassName("MiO-Tooltip-" + UUID);
+
+    if (_nodeTooltipContent && _nodeTooltip) {
+        Utils.PopoverAppend(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
+    }
+}
+
+watch(() => props.content, (newValue) => {
+    _content.value = newValue;
+});
+watch(() => props.placement, (newValue) => {
+    _placement.value = newValue;
+});
+watch(() => props.offset, (newValue) => {
+    _offset.value = newValue;
+});
+
+onMounted(() => {
+    Utils.Initialize();
+    popoverAppend();
+});
+</script>
+
+<template>
+    <component :is="slot" />
+    <div :id="'MiO-Tooltip-Content-' + UUID" class="mio-tooltip-content">
+        {{ _content }}
+    </div>
+</template>
+
+<style lang="scss" scoped>
+.mio-tooltip-content {
+    position: absolute;
+    opacity: 0;
+    border-radius: 8PX;
+    padding: 12PX;
+    white-space: nowrap;
+    border: 1PX solid rgba(226, 226, 226, 1);
+    box-shadow: 0 0 12PX rgba(226, 226, 226, 0.3);
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+</style>
