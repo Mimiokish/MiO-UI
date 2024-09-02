@@ -22,12 +22,13 @@ provide("updateMethods", {
     fillColumns: fillColumns
 });
 
-function fillColumns(prop, label, span, slot) {
+function fillColumns(prop, label, span, slot, tooltip) {
     columns.value.push({
         prop: prop,
         label: label,
         span: span,
-        slot: slot
+        slot: slot,
+        tooltip: tooltip
     });
 }
 </script>
@@ -45,9 +46,17 @@ function fillColumns(prop, label, span, slot) {
                     <div v-for="row in data" class="mio-table-row">
                         <template v-for="column in columns">
                             <div class="mio-table-column" :style="`flex: ${ column.span }`">
-                                <template v-if="!column.slot">{{ row[column.prop] }}</template>
+                                <mio-tooltip v-if="column.tooltip" :content="row[column.prop]">
+                                    <div v-if="!column.slot">{{ row[column.prop] }}</div>
+                                    <div v-else>
+                                        <component :is="column.slot" />
+                                    </div>
+                                </mio-tooltip>
                                 <template v-else>
-                                    <component :is="column.slot" />
+                                    <template v-if="!column.slot">{{ row[column.prop] }}</template>
+                                    <template v-else>
+                                        <component :is="column.slot" />
+                                    </template>
                                 </template>
                             </div>
                         </template>

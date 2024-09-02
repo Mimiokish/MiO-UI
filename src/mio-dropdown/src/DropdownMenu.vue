@@ -25,6 +25,7 @@ const UUID = inject("UUID");
     pointer-events: none;
     opacity: 0.5;
     height: auto;
+    background-color: rgba(255, 255, 255, 1);
     -ms-overflow-style: none;
     scrollbar-width: none;
     transition-duration: 0.25s;

@@ -10,7 +10,7 @@ import Utils from "../../utils/index.js";
 
 const props = defineProps({
     content: {
-        type: String,
+        type: [ String, Number, Boolean, Date ],
         required: true,
         default: ""
     },
@@ -105,6 +105,7 @@ onMounted(() => {
     border-radius: 8PX;
     padding: 12PX;
     white-space: nowrap;
+    background-color: rgba(255, 255, 255, 1);
     border: 1PX solid rgba(226, 226, 226, 1);
     box-shadow: 0 0 12PX rgba(226, 226, 226, 0.3);
     transition-duration: 0.25s;

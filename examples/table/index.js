@@ -11,7 +11,8 @@ const app = createApp({
                         "en-US": "Name"
                     },
                     configs: {
-                        span: 1
+                        span: 1,
+                        tooltip: false
                     }
                 },
                 {
@@ -21,7 +22,8 @@ const app = createApp({
                         "en-US": "Date"
                     },
                     configs: {
-                        span: 2
+                        span: 2,
+                        tooltip: true
                     }
                 },
                 {
@@ -52,10 +54,10 @@ const app = createApp({
                             <mio-button>按钮</mio-button>
                         </template>
                     </mio-table-column>
-                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
+                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip">
                         <template #header>{{ column.label["en-US"] }}（yyyy-mm-dd）</template>
                     </mio-table-column>
-                    <mio-table-column v-else :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" />
+                    <mio-table-column v-else :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip" />
                 </template>
             </mio-table>
         </div>
@@ -68,6 +70,7 @@ const app = createApp({
 });
 
 MiOUI.MiOButton.install(app);
+MiOUI.MiOTooltip.install(app);
 MiOUI.MiOTable.install(app);
 
 app.mount('#MiO-UI');

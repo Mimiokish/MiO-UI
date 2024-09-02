@@ -19,6 +19,10 @@ const props = defineProps({
     span: {
         type: Number,
         default: 1
+    },
+    tooltip: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -27,7 +31,7 @@ const updateMethods = inject("updateMethods");
 const slots = useSlots();
 
 onMounted(() => {
-    updateMethods.fillColumns(props.prop, props.label, props.span, slots["body"]);
+    updateMethods.fillColumns(props.prop, props.label, props.span, slots["body"], props.tooltip);
 });
 </script>
 
