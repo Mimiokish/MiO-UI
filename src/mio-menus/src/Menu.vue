@@ -26,7 +26,7 @@ const props = defineProps({
     }
 })
 
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 const active = ref(null);
 
 provide("configs", {

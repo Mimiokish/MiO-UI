@@ -32,7 +32,7 @@ function handlePopupDirection() {
     if (!_nodeDropdown || !_nodeDropdownMenu || !_nodeDropdownTrigger) {
         return false;
     } else {
-        const _dropdownPosition = Utils.GetNodePosition(_nodeDropdown);
+        const _dropdownPosition = Utils.General.GetNodePosition(_nodeDropdown);
         const dropdownHeight = _nodeDropdown.offsetHeight;
 
         if ((_dropdownPosition.bottom * 0.96) < dropdownHeight) {

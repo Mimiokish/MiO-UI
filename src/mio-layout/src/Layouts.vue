@@ -7,7 +7,7 @@ export default {
 <script setup>
 import Utils from "../../utils/index.js";
 
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 </script>
 
 <template>

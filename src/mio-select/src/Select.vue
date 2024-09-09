@@ -20,7 +20,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["update:modelValue"]);
 
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 const selectLabel = ref(null);
 const selectValue = ref(null);
 const selectType = ref("");
@@ -86,7 +86,7 @@ function handlePopupDirection(node) {
     const _nodeSelect = document.getElementById("MiO-Select-" + UUID);
     const _nodeSelectOptions = document.getElementById("MiO-Select-Options-" + UUID);
 
-    const _selectPosition = Utils.GetNodePosition(_nodeSelect);
+    const _selectPosition = Utils.General.GetNodePosition(_nodeSelect);
     const _selectOptionsHeight = _nodeSelectOptions.offsetHeight;
 
     if ((_selectPosition.bottom * 0.96) < _selectOptionsHeight) {

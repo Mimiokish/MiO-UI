@@ -3,7 +3,7 @@ export default class PopoverUtils {
 
     constructor() {}
 
-    #getPosition(node) {
+    GetPosition(node) {
         const _node = node;
 
         if (_node) {
@@ -30,7 +30,43 @@ export default class PopoverUtils {
         }
     }
 
-    #setDirection(node, nodeParent, placement) {
+    SetPosition(node, nodeParent, placement, offset) {
+        const _node = node;
+        const _nodeParent = nodeParent;
+        let _placement = placement;
+        const _offset = offset;
+
+        if (!_node) {
+            return false;
+        } else {
+            _placement = this.SetDirection(_node, _nodeParent, _placement);
+            const _nodeHeight = _node.offsetHeight;
+            const _nodeWidth = _node.offsetWidth;
+            const _parentPosition = this.GetPosition(_nodeParent);
+
+            switch (_placement) {
+                case "top":
+                    _node.style.transform = `translateX(${ (_parentPosition.left + (_nodeParent.offsetWidth / 2)) - (_nodeWidth / 2) }PX) translateY(${ _parentPosition.top - _nodeHeight - offset }PX)`;
+                    _node.style.transformOrigin = "bottom center"
+                    break;
+                case "bottom":
+                    _node.style.transform = `translateX(${ (_parentPosition.left + (_nodeParent.offsetWidth / 2)) - (_nodeWidth / 2) }PX) translateY(${ _parentPosition.top + _nodeParent.offsetHeight + offset }PX)`;
+                    _node.style.transformOrigin = "top center"
+                    break;
+                case "left":
+                    _node.style.transform = `translateX(${ _parentPosition.left - _nodeWidth - offset }PX) translateY(${ (_parentPosition.top + (_nodeParent.offsetHeight / 2)) - (_nodeHeight / 2) }PX)`;
+                    _node.style.transformOrigin = "right center"
+                    break;
+                case "right":
+                    _node.style.transform = `translateX(${ _parentPosition.left + _nodeParent.offsetWidth + offset }PX) translateY(${ (_parentPosition.top + (_nodeParent.offsetHeight / 2)) - (_nodeHeight / 2) }PX)`;
+                    _node.style.transformOrigin = "left center"
+                    break;
+                default:
+            }
+        }
+    }
+
+    SetDirection(node, nodeParent, placement) {
         const _node = node;
         const _nodeParent = nodeParent;
         let _placement = placement;
@@ -40,7 +76,7 @@ export default class PopoverUtils {
         } else {
             const _nodeHeight = _node.offsetHeight;
             const _nodeWidth = _node.offsetWidth;
-            const _parentPosition = this.#getPosition(_nodeParent);
+            const _parentPosition = this.GetPosition(_nodeParent);
 
             _node.classList.remove("top", "bottom", "left", "right");
 
@@ -105,58 +141,19 @@ export default class PopoverUtils {
         }
     }
 
-    #setPosition(node, nodeParent, placement, offset) {
-        const _node = node;
-        const _nodeParent = nodeParent;
-        let _placement = placement;
-        const _offset = offset;
-
-        if (!_node) {
-            return false;
-        } else {
-            _placement = this.#setDirection(_node, _nodeParent, _placement);
-            const _nodeHeight = _node.offsetHeight;
-            const _nodeWidth = _node.offsetWidth;
-            const _parentPosition = this.#getPosition(_nodeParent);
-
-            switch (_placement) {
-                case "top":
-                    _node.style.transform = `translateX(${ (_parentPosition.left + (_nodeParent.offsetWidth / 2)) - (_nodeWidth / 2) }PX) translateY(${ _parentPosition.top - _nodeHeight - offset }PX)`;
-                    _node.style.transformOrigin = "bottom center"
-                    break;
-                case "bottom":
-                    _node.style.transform = `translateX(${ (_parentPosition.left + (_nodeParent.offsetWidth / 2)) - (_nodeWidth / 2) }PX) translateY(${ _parentPosition.top + _nodeParent.offsetHeight + offset }PX)`;
-                    _node.style.transformOrigin = "top center"
-                    break;
-                case "left":
-                    _node.style.transform = `translateX(${ _parentPosition.left - _nodeWidth - offset }PX) translateY(${ (_parentPosition.top + (_nodeParent.offsetHeight / 2)) - (_nodeHeight / 2) }PX)`;
-                    _node.style.transformOrigin = "right center"
-                    break;
-                case "right":
-                    _node.style.transform = `translateX(${ _parentPosition.left + _nodeParent.offsetWidth + offset }PX) translateY(${ (_parentPosition.top + (_nodeParent.offsetHeight / 2)) - (_nodeHeight / 2) }PX)`;
-                    _node.style.transformOrigin = "left center"
-                    break;
-                default:
-            }
-        }
-    }
-
-    #setActivateStyle(node) {
+    SetActivateStyle(node) {
         const _node = node;
 
         if (!_node) {
             return false;
         } else {
             _node.style.display = "flex";
-
-            setTimeout(() => {
-                _node.style.pointerEvents = "auto";
-                _node.style.opacity = 1
-            })
+            _node.style.pointerEvents = "auto";
+            _node.style.opacity = 1
         }
     }
 
-    #setDeactivateStyle(node) {
+    SetDeactivateStyle(node) {
         const _node = node;
 
         if (!_node) {
@@ -164,10 +161,6 @@ export default class PopoverUtils {
         } else {
             _node.style.pointerEvents = "none";
             _node.style.opacity = 0
-
-            setTimeout(() => {
-                _node.style.display = "none";
-            }, 250)
         }
     }
 
@@ -198,9 +191,9 @@ export default class PopoverUtils {
         } else {
             this.#nodePopover.append(_node);
 
-            this.#setPosition(_node, _nodeParent, _placement, _offset);
+            this.SetPosition(_node, _nodeParent, _placement, _offset);
 
-            this.#setDeactivateStyle(_node);
+            this.SetDeactivateStyle(_node);
         }
     }
 
@@ -221,7 +214,7 @@ export default class PopoverUtils {
         } else {
             _node.classList.remove("active");
 
-            this.#setDeactivateStyle(_node);
+            this.SetDeactivateStyle(_node);
         }
     }
 
@@ -236,8 +229,8 @@ export default class PopoverUtils {
         } else {
             _node.classList.add("active");
 
-            this.#setPosition(_node, _nodeParent, _placement);
-            this.#setActivateStyle(_node, _offset);
+            this.SetPosition(_node, _nodeParent, _placement);
+            this.SetActivateStyle(_node, _offset);
         }
     }
 }

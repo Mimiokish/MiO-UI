@@ -15,7 +15,7 @@ const props = defineProps({
         default: "/"
     }
 });
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 
 provide("separator", props.separator);
 

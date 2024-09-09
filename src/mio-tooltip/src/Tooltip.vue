@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup>
-import { ref, useSlots, computed, cloneVNode, onMounted, watch } from "vue";
+import { ref, useSlots, computed, cloneVNode, watch, onMounted, onUnmounted } from "vue";
 import Utils from "../../utils/index.js";
 
 const props = defineProps({
@@ -30,7 +30,7 @@ const _content = ref(props.content);
 const _placement = ref(props.placement);
 const _offset = ref(props.offset);
 
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 const slots = useSlots();
 
 const slot = computed(() => {
@@ -48,13 +48,23 @@ const slot = computed(() => {
         });
     }
 })
+const tooltipResize = () => {
+    const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
+    const _nodeTooltip = document.getElementsByClassName("MiO-Tooltip-" + UUID);
+
+    if (_nodeTooltipContent && _nodeTooltip) {
+        Utils.Popover.SetPosition(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
+
+        Utils.Popover.SetDeactivateStyle(_nodeTooltipContent);
+    }
+}
 
 function handleMouseEnter(event) {
     const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
     const _nodeTooltip = document.getElementsByClassName("MiO-Tooltip-" + UUID);
 
     if (_nodeTooltipContent && _nodeTooltip) {
-        Utils.PopoverShowNode(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
+        Utils.Popover.ShowNode(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
     }
 }
 
@@ -62,7 +72,7 @@ function handleMouseLeave(event) {
     const _nodeTooltipContent = document.getElementById("MiO-Tooltip-Content-" + UUID);
 
     if (_nodeTooltipContent) {
-        Utils.PopoverHideNode(_nodeTooltipContent);
+        Utils.Popover.HideNode(_nodeTooltipContent);
     }
 }
 
@@ -71,7 +81,7 @@ function popoverAppend() {
     const _nodeTooltip = document.getElementsByClassName("MiO-Tooltip-" + UUID);
 
     if (_nodeTooltipContent && _nodeTooltip) {
-        Utils.PopoverAppend(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
+        Utils.Popover.Append(_nodeTooltipContent, _nodeTooltip[0], _placement.value, _offset.value);
     }
 }
 
@@ -88,7 +98,13 @@ watch(() => props.offset, (newValue) => {
 onMounted(() => {
     Utils.Initialize();
     popoverAppend();
+
+    window.addEventListener("resize", tooltipResize);
 });
+
+onUnmounted(() => {
+    window.removeEventListener("resize", tooltipResize);
+})
 </script>
 
 <template>

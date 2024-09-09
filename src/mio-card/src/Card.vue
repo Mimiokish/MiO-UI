@@ -8,7 +8,7 @@ export default {
 import { provide } from "vue";
 import Utils from "../../utils";
 
-const UUID = Utils.GenerateUUID();
+const UUID = Utils.General.GenerateUUID();
 
 provide("UUID", UUID);
 </script>
