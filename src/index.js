@@ -7,7 +7,8 @@ import MiOCard from "./mio-card";
 import MiOTable from "./mio-table";
 import MiOButton from "./mio-button";
 import MiODropdown from "./mio-dropdown";
-import MiOTooltip from "./mio-tooltip/index.js";
+import MiOTooltip from "./mio-tooltip";
+import MiOModal from "./mio-modal";
 
 const MiOUI = {
     MiOLayouts,
@@ -19,11 +20,12 @@ const MiOUI = {
     MiOTable,
     MiOButton,
     MiODropdown,
-    MiOTooltip
+    MiOTooltip,
+    MiOModal
 };
 
 export default MiOUI;
-// TO DELETE: test code
+
 window.MiOUI = {
     MiOLayouts,
     MiOMenus,
@@ -34,5 +36,6 @@ window.MiOUI = {
     MiOTable,
     MiOButton,
     MiODropdown,
-    MiOTooltip
+    MiOTooltip,
+    MiOModal
 }
