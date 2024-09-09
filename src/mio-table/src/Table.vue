@@ -49,13 +49,13 @@ function fillColumns(prop, label, span, slot, tooltip) {
                                 <mio-tooltip v-if="column.tooltip" :content="row[column.prop]">
                                     <div v-if="!column.slot">{{ row[column.prop] }}</div>
                                     <div v-else>
-                                        <component :is="column.slot" />
+                                        <component :is="column.slot" :row="row" />
                                     </div>
                                 </mio-tooltip>
                                 <template v-else>
                                     <template v-if="!column.slot">{{ row[column.prop] }}</template>
                                     <template v-else>
-                                        <component :is="column.slot" />
+                                        <component :is="column.slot" :row="row" />
                                     </template>
                                 </template>
                             </div>

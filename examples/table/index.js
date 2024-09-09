@@ -5,6 +5,17 @@ const app = createApp({
         return {
             columns: [
                 {
+                    key: "preview",
+                    label: {
+                        "zh-CN": "预览",
+                        "en-US": "Preview"
+                    },
+                    configs: {
+                        span: 1,
+                        tooltip: false
+                    }
+                },
+                {
                     key: "name",
                     label: {
                         "zh-CN": "姓名",
@@ -39,7 +50,18 @@ const app = createApp({
             ],
             data: [
                 {
-                    name: "Mr. Smile",
+                    preview: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+                    name: "Mr. Camera",
+                    date: "1724179771",
+                },
+                {
+                    preview: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
+                    name: "Mr. Cat",
+                    date: "1724179771",
+                },
+                {
+                    preview: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+                    name: "Mr. Camera",
                     date: "1724179771",
                 }
             ]
@@ -56,6 +78,11 @@ const app = createApp({
                     </mio-table-column>
                     <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip">
                         <template #header>{{ column.label["en-US"] }}（yyyy-mm-dd）</template>
+                    </mio-table-column>
+                    <mio-table-column v-else-if="column.key === 'preview'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
+                        <template #body="{ row }">
+                            <div class="table-preview" :style="'background-image: url(' + row[column.key] + ')'" />
+                        </template>
                     </mio-table-column>
                     <mio-table-column v-else :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip" />
                 </template>

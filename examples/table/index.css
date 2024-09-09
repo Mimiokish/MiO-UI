@@ -14,3 +14,11 @@ body #MiO-UI {
     display: flex;
     padding: 20PX;
 }
+
+.table-preview {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    padding-top: 36PX;
+    width: 36PX;
+}
