@@ -38,32 +38,33 @@ function fillColumns(prop, label, span, slot, tooltip) {
         <div :id="'MiO-Table-Header-' + UUID" class="mio-table-header">
             <slot />
         </div>
-        <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body">
-            <div v-if="!props.data.length" class="mio-table-no-data">No Data</div>
-            <template v-else>
-                <div v-if="props.data.length <= 0" class="mio-table-no-data">No Data</div>
-                <template v-else>
-                    <div v-for="row in data" class="mio-table-row">
-                        <template v-for="column in columns">
-                            <div class="mio-table-column" :style="`flex: ${ column.span }`">
-                                <mio-tooltip v-if="column.tooltip" :content="row[column.prop]">
-                                    <div v-if="!column.slot">{{ row[column.prop] }}</div>
-                                    <div v-else>
-                                        <component :is="column.slot" :row="row" />
-                                    </div>
-                                </mio-tooltip>
+        <template v-if="!props.data || !props.data.length || props.data.length <= 0">
+            <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body no-data">
+                <div class="mio-table-no-data">No Data</div>
+            </div>
+        </template>
+        <template v-else>
+            <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body">
+                <div v-for="row in data" class="mio-table-row">
+                    <template v-for="column in columns">
+                        <div class="mio-table-column" :style="`flex: ${ column.span }`">
+                            <mio-tooltip v-if="column.tooltip" :content="row[column.prop]">
+                                <div v-if="!column.slot">{{ row[column.prop] }}</div>
+                                <div v-else>
+                                    <component :is="column.slot" :row="row" />
+                                </div>
+                            </mio-tooltip>
+                            <template v-else>
+                                <template v-if="!column.slot">{{ row[column.prop] }}</template>
                                 <template v-else>
-                                    <template v-if="!column.slot">{{ row[column.prop] }}</template>
-                                    <template v-else>
-                                        <component :is="column.slot" :row="row" />
-                                    </template>
+                                    <component :is="column.slot" :row="row" />
                                 </template>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-            </template>
-        </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -96,6 +97,12 @@ function fillColumns(prop, label, span, slot, tooltip) {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
+
+        &.no-data {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         .mio-table-row {
             flex: 0 0 26PX;

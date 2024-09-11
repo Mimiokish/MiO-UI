@@ -3,6 +3,11 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            lang: "en-US",
+            label: {
+                "en-US": "Switch to English",
+                "zh-CN": "切换到中文"
+            },
             columns: [
                 {
                     key: "preview",
@@ -69,30 +74,36 @@ const app = createApp({
     },
     template: `
         <div style="width:100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+            <mio-button radius="medium" style="margin-bottom: 20PX;" @click="handleClick">{{ label[lang] }}</mio-button>
             <mio-table :data="data">
                 <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
-                    <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
+                    <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label[lang]" :span="column.configs.span">
                         <template #body>
                             <mio-button>按钮</mio-button>
                         </template>
                     </mio-table-column>
-                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip">
-                        <template #header>{{ column.label["en-US"] }}（yyyy-mm-dd）</template>
+                    <mio-table-column v-else-if="column.key === 'date'" :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip">
+                        <template #header>{{ column.label[lang] }}（yyyy-mm-dd）</template>
                     </mio-table-column>
-                    <mio-table-column v-else-if="column.key === 'preview'" :prop="column.key" :label="column.label['en-US']" :span="column.configs.span">
+                    <mio-table-column v-else-if="column.key === 'preview'" :prop="column.key" :label="column.label[lang]" :span="column.configs.span">
                         <template #body="{ row }">
                             <div class="table-preview" :style="'background-image: url(' + row[column.key] + ')'" />
                         </template>
                     </mio-table-column>
-                    <mio-table-column v-else :prop="column.key" :label="column.label['en-US']" :span="column.configs.span" :tooltip="column.configs.tooltip" />
+                    <mio-table-column v-else :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip" />
+                </template>
+            </mio-table>
+            <mio-table :data="[]" >
+                <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
+                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip"/>
                 </template>
             </mio-table>
         </div>
     `,
-    mounted() {
-        setTimeout(() => {
-            this.value = 3;
-        }, 4000)
+    methods: {
+        handleClick() {
+            this.lang = this.lang === "en-US" ? "zh-CN" : "en-US";
+        }
     }
 });
 
