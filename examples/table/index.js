@@ -17,7 +17,8 @@ const app = createApp({
                     },
                     configs: {
                         span: 1,
-                        tooltip: false
+                        tooltip: false,
+                        fixed: false
                     }
                 },
                 {
@@ -28,7 +29,8 @@ const app = createApp({
                     },
                     configs: {
                         span: 1,
-                        tooltip: false
+                        tooltip: false,
+                        fixed: false
                     }
                 },
                 {
@@ -39,7 +41,8 @@ const app = createApp({
                     },
                     configs: {
                         span: 2,
-                        tooltip: true
+                        tooltip: true,
+                        fixed: false
                     }
                 },
                 {
@@ -49,7 +52,8 @@ const app = createApp({
                         "en-US": "Actions"
                     },
                     configs: {
-                        span: 3
+                        span: 3,
+                        fixed: true
                     }
                 }
             ],
@@ -66,7 +70,7 @@ const app = createApp({
                 },
                 {
                     preview: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-                    name: "Mr. Camera",
+                    name: "Mr. Loooooooooonnnnnnnnnnnnnnnnmmg",
                     date: "1724179771",
                 }
             ],
@@ -83,7 +87,7 @@ const app = createApp({
             <mio-button radius="medium" style="margin-bottom: 20PX;" @click="handleClick">{{ label[lang] }}</mio-button>
             <mio-table :data="data">
                 <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
-                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip">
+                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip" :fixed="column.configs.fixed">
                         <template #header>
                             <template v-if="column.key === 'date'">
                                 {{ column.label[lang] }}（yyyy-mm-dd）
@@ -136,7 +140,6 @@ const app = createApp({
     `,
     methods: {
         handlePreview(url) {
-            console.log(3434, url)
             this.previewUrl = url;
             this.modalVis = true;
         },

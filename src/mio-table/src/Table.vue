@@ -17,17 +17,24 @@ const props = defineProps({
 
 const UUID = Utils.General.GenerateUUID();
 const columns = ref([]);
+const hints = {
+    "no-data": {
+        "en-US": "No Data",
+        "zh-CN": "暂无数据"
+    }
+}
 
 provide("updateMethods", {
     fillColumns: fillColumns
 });
 
-function fillColumns(prop, label, span, slot, tooltip) {
+function fillColumns(prop, label, span, slot, fixed, tooltip) {
     columns.value.push({
         prop: prop,
         label: label,
         span: span,
         slot: slot,
+        fixed: fixed,
         tooltip: tooltip
     });
 }
@@ -35,19 +42,19 @@ function fillColumns(prop, label, span, slot, tooltip) {
 
 <template>
     <div :id="'MiO-Table-' + UUID" class="mio-table">
-        <div :id="'MiO-Table-Header-' + UUID" class="mio-table-header">
-            <slot />
-        </div>
-        <template v-if="!props.data || !props.data.length || props.data.length <= 0">
-            <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body no-data">
-                <div class="mio-table-no-data">No Data</div>
-            </div>
-        </template>
-        <template v-else>
-            <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body">
-                <div v-for="row in data" class="mio-table-row">
+        <table :data="data">
+            <thead class="mio-table-header">
+                <tr class="mio-table-header-row">
+                    <slot />
+                </tr>
+            </thead>
+            <tbody v-if="!data || !data.length || data.length <= 0" class="mio-table-body no-data">
+                <tr>No Data</tr>
+            </tbody>
+            <tbody v-else class="mio-table-body">
+                <tr v-for="row in data" class="mio-table-body-row">
                     <template v-for="column in columns">
-                        <div class="mio-table-column" :style="`flex: ${ column.span }`">
+                        <td class="mio-table-body-column" :class="column.fixed ? 'fixed' : ''" :style="{ flex: column.span }">
                             <mio-tooltip v-if="column.tooltip" :content="row[column.prop]">
                                 <div v-if="!column.slot">{{ row[column.prop] }}</div>
                                 <div v-else>
@@ -60,81 +67,82 @@ function fillColumns(prop, label, span, slot, tooltip) {
                                     <component :is="column.slot" :row="row" />
                                 </template>
                             </template>
-                        </div>
+                        </td>
                     </template>
-                </div>
-            </div>
-        </template>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <style lang="scss" scoped>
 .mio-table {
+    flex: 1;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     border: 1PX solid rgba(46, 46, 46, 0.3);
     border-radius: 6PX;
     box-shadow: 0 0 12PX rgba(46, 46, 46, 0.1);
 
-    .mio-table-header {
-        flex: 0 0 38PX;
+    table, thead, tbody {
+        padding: 0;
+        margin: 0;
+    }
+
+    table {
+        flex: 1;
         width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+        height: 100%;
+        border: none;
+        border-radius: 6PX;
+    }
+
+    .mio-table-header {
+        .mio-table-header-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
     }
 
     .mio-table-body {
-        box-sizing: border-box;
-        padding: 10PX;
-        flex: 1;
-        width: 100%;
-        overflow: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-
         &.no-data {
+            width: 100%;
+            height: 100%;
+            color: rgba(46, 46, 46, 0.8);
+            font-size: 16PX;
+            font-weight: 800;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .mio-table-row {
-            flex: 0 0 26PX;
-            width: 100%;
+        .mio-table-body-row {
             display: flex;
             justify-content: flex-start;
-            align-items: flex-start;
-            border-bottom: 1PX dashed rgba(46, 46, 46, 0.3);
+            align-items: center;
             border-top: 1PX dashed rgba(46, 46, 46, 0.3);
 
-            .mio-table-column {
+            &:last-child {
+                border-bottom: 1PX dashed rgba(46, 46, 46, 0.3);
+            }
+
+            .mio-table-body-column {
                 box-sizing: border-box;
-                flex: 1;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                padding: 6PX 10PX;
+                color: rgba(46, 46, 46, 0.8);
                 font-size: 16PX;
                 font-weight: 500;
-                color: rgba(46, 46, 46, 0.8);
-                padding: 6PX 10PX;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                line-height: 26PX;
-            }
-        }
+                display: flex;
+                justify-content: flex-start;
 
-        .mio-table-no-data {
-            color: rgba(45, 45, 45, 0.6);
-            font-size: 26PX;
-            font-weight: 600;
+                &.fixed {
+                    margin-left: auto;
+                }
+            }
         }
     }
 }
