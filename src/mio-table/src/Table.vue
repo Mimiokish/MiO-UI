@@ -35,10 +35,10 @@ function fillColumns(prop, label, span, slot, tooltip) {
 
 <template>
     <div :id="'MiO-Table-' + UUID" class="mio-table">
-        <div :id="'MiO-Table-Header' + UUID" class="mio-table-header">
+        <div :id="'MiO-Table-Header-' + UUID" class="mio-table-header">
             <slot />
         </div>
-        <div :id="'MiO-Table-Body' + UUID" class="mio-table-body">
+        <div :id="'MiO-Table-Body-' + UUID" class="mio-table-body">
             <div v-if="!props.data.length" class="mio-table-no-data">No Data</div>
             <template v-else>
                 <div v-if="props.data.length <= 0" class="mio-table-no-data">No Data</div>
@@ -109,6 +109,7 @@ function fillColumns(prop, label, span, slot, tooltip) {
             .mio-table-column {
                 box-sizing: border-box;
                 flex: 1;
+                height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;

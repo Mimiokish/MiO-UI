@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="mio-table-column" :style="`flex: ${ props.span }`">
+    <div class="mio-table-column" :style="{ flex: props.span }">
         <template v-if="slots['header']">
             <slot name="header" />
         </template>
