@@ -22,3 +22,15 @@ body #MiO-UI {
     padding-top: 36PX;
     width: 36PX;
 }
+
+.modal-preview {
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding-top: 300PX;
+    width: 300PX;
+}
+
+.table-no-data {
+    margin: 16PX 0;
+}

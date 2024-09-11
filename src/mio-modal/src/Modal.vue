@@ -52,6 +52,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .mio-modal {
+    z-index: 999;
     position: fixed;
     top: 0;
     bottom: 0;

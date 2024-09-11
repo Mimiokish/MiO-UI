@@ -69,12 +69,51 @@ const app = createApp({
                     name: "Mr. Camera",
                     date: "1724179771",
                 }
-            ]
+            ],
+            modalVis: false,
+            modalLabel: {
+                "en-US": "Preview",
+                "zh-CN": "预览"
+            },
+            previewUrl: ""
         }
     },
     template: `
         <div style="width:100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
             <mio-button radius="medium" style="margin-bottom: 20PX;" @click="handleClick">{{ label[lang] }}</mio-button>
+            <mio-table :data="data">
+                <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
+                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip">
+                        <template #header>
+                            <template v-if="column.key === 'date'">
+                                {{ column.label[lang] }}（yyyy-mm-dd）
+                            </template>
+                            <template v-else>{{ column.label[lang] }}</template>
+                        </template>
+                        <template #body="{ row }">
+                            <template v-if="column.key === 'actions'">
+                                <mio-button>按钮</mio-button>
+                            </template>
+                            <template v-else-if="column.key === 'preview'">
+                                <div class="table-preview" :style="{ backgroundImage: 'url(' + row[column.key] + ')' }" @click="handlePreview(row[column.key])" />
+                            </template>
+                            <template v-else>{{ row[column.key] }}</template>
+                        </template>
+                    </mio-table-column>
+                </template>
+            </mio-table>
+            <mio-modal v-model="modalVis">
+                <mio-modal-header>{{ modalLabel[lang] }}</mio-modal-header>
+                <mio-modal-body>
+                    <div class="modal-preview" :style="{ backgroundImage: 'url(' + previewUrl + ')' }"></div>
+                </mio-modal-body>
+                <mio-modal-footer></mio-modal-footer>
+            </mio-modal>
+            <mio-table class="table-no-data" :data="[]" >
+                <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
+                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip"/>
+                </template>
+            </mio-table>
             <mio-table :data="data">
                 <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
                     <mio-table-column v-if="column.key === 'actions'" :prop="column.key" :label="column.label[lang]" :span="column.configs.span">
@@ -87,20 +126,20 @@ const app = createApp({
                     </mio-table-column>
                     <mio-table-column v-else-if="column.key === 'preview'" :prop="column.key" :label="column.label[lang]" :span="column.configs.span">
                         <template #body="{ row }">
-                            <div class="table-preview" :style="'background-image: url(' + row[column.key] + ')'" />
+                            <div class="table-preview" :style="{ backgroundImage: 'url(' + row[column.key] + ')' }" @click="handlePreview(row[column.key])" />
                         </template>
                     </mio-table-column>
                     <mio-table-column v-else :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip" />
                 </template>
             </mio-table>
-            <mio-table :data="[]" >
-                <template v-for="column in columns" :key="'MiO-Table-Column-' + column.key">
-                    <mio-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip"/>
-                </template>
-            </mio-table>
         </div>
     `,
     methods: {
+        handlePreview(url) {
+            console.log(3434, url)
+            this.previewUrl = url;
+            this.modalVis = true;
+        },
         handleClick() {
             this.lang = this.lang === "en-US" ? "zh-CN" : "en-US";
         }
@@ -110,5 +149,6 @@ const app = createApp({
 MiOUI.MiOButton.install(app);
 MiOUI.MiOTooltip.install(app);
 MiOUI.MiOTable.install(app);
+MiOUI.MiOModal.install(app);
 
 app.mount('#MiO-UI');
