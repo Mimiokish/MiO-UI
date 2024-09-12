@@ -5,66 +5,48 @@ export default {
 </script>
 
 <script setup>
-import { inject, useSlots, onMounted } from "vue";
+import { inject, useSlots, onBeforeMount } from "vue";
 
 const props = defineProps({
     prop: {
+        type: [ String, Number ],
+        default: ""
+    },
+    title: {
         type: String,
-        required: true
-    },
-    label: {
-        type: String,
-        required: true
-    },
-    span: {
-        type: Number,
-        default: 1
-    },
-    fixed: {
-        type: Boolean,
-        default: false
-    },
-    tooltip: {
-        type: Boolean,
-        default: false
+        default: ""
     }
 })
 
-const updateMethods = inject("updateMethods");
+const UpdateMethods = inject("UpdateMethods");
 
-const slots = useSlots();
+const _slots = useSlots();
 
-onMounted(() => {
-    updateMethods.fillColumns(props.prop, props.label, props.span, slots["body"], props.fixed, props.tooltip);
+onBeforeMount(() => {
+    UpdateMethods.FillColumns(props.prop, _slots["default"], props.title);
 });
 </script>
 
 <template>
-    <th class="mio-table-header-column" :class="props.fixed ? 'fixed' : ''" :style="{ flex: props.span }">
-        <template v-if="slots['header']">
-            <slot name="header" />
+    <th class="mio-table-column">
+        <template v-if="_slots['default']">
+            <slot name="default" />
         </template>
-        <template v-else>
-            {{ props.label }}
-        </template>
+        <template v-else>{{ props.title }}</template>
     </th>
 </template>
 
 <style lang="scss" scoped>
-.mio-table-header-column {
+.mio-table-column {
     box-sizing: border-box;
     padding: 6PX 10PX;
+    font-size: 14PX;
+    font-weight: 800;
     color: rgba(46, 46, 46, 0.8);
-    font-size: 18PX;
-    font-weight: 600;
+    height: 38PX;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: flex;
-    justify-content: flex-start;
-
-    &.fixed {
-        margin-left: auto;
-    }
+    text-align: left;
 }
 </style>

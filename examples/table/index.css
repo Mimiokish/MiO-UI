@@ -1,18 +1,29 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
-body #MiO-UI {
+#MiO-UI {
     width: 100%;
     height: 100%;
     overflow: auto;
-    box-sizing: border-box;
-    display: flex;
-    padding: 20PX;
+
+    .showcase {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20PX;
+
+        .divider {
+            margin: 40PX 0 20PX 0;
+            font-size: 18PX;
+            font-weight: 600;
+        }
+    }
 }
 
 .table-preview {
@@ -33,4 +44,8 @@ body #MiO-UI {
 
 .table-no-data {
     margin: 16PX 0;
+}
+
+.table-custom-cell {
+    margin-top: 20PX;
 }
