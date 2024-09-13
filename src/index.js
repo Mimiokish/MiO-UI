@@ -10,6 +10,7 @@ import MiOButton from "./mio-button";
 import MiODropdown from "./mio-dropdown";
 import MiOTooltip from "./mio-tooltip";
 import MiOModal from "./mio-modal";
+import MiODivider from "./mio-divider";
 
 const MiOUI = {
     MiOLayouts,
@@ -23,7 +24,8 @@ const MiOUI = {
     MiOButton,
     MiODropdown,
     MiOTooltip,
-    MiOModal
+    MiOModal,
+    MiODivider
 };
 
 export default MiOUI;
@@ -40,5 +42,6 @@ window.MiOUI = {
     MiOButton,
     MiODropdown,
     MiOTooltip,
-    MiOModal
+    MiOModal,
+    MiODivider
 }

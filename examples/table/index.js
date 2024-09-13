@@ -102,6 +102,7 @@ const app = createApp({
                         "en-US": "Preview"
                     },
                     configs: {
+                        width: 80
                     }
                 },
                 {
@@ -111,6 +112,42 @@ const app = createApp({
                         "en-US": "Name"
                     },
                     configs: {
+                        width: "200",
+                        align: "left"
+                    }
+                },
+                {
+                    key: "location",
+                    label: {
+                        "zh-CN": "位置",
+                        "en-US": "Location"
+                    },
+                    configs: {
+                        width: "200",
+                        align: "left"
+                    }
+                },
+                {
+                    key: "count",
+                    label: {
+                        "zh-CN": "计数",
+                        "en-US": "Count"
+                    },
+                    configs: {
+                        width: "200",
+                        align: "left",
+                        fixed: "right"
+                    }
+                },
+                {
+                    key: "description",
+                    label: {
+                        "zh-CN": "描述",
+                        "en-US": "Description"
+                    },
+                    configs: {
+                        width: "200",
+                        align: "left"
                     }
                 },
                 {
@@ -120,6 +157,8 @@ const app = createApp({
                         "en-US": "Date"
                     },
                     configs: {
+                        width: "200",
+                        align: "left"
                     }
                 },
                 {
@@ -129,6 +168,9 @@ const app = createApp({
                         "en-US": "Actions"
                     },
                     configs: {
+                        width: "200",
+                        align: "center",
+                        fixed: "right"
                     }
                 }
             ],
@@ -151,16 +193,25 @@ const app = createApp({
                     preview: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
                     name: "Mr. Camera",
                     date: "1724179771",
+                    count: 4,
+                    description: "this is a description",
+                    location: "a place"
                 },
                 {
                     name: "Mr. Cat",
                     preview: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg",
                     date: "1724179771",
+                    count: 4,
+                    description: "this is a description",
+                    location: "a place"
                 },
                 {
                     date: "1724179771",
                     name: "Mr. Loooooooooonnnnnnnnnnnnnnnnmmg",
                     preview: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+                    count: 4,
+                    description: "this is a description",
+                    location: "a place"
                 }
             ],
             modalVis: false,
@@ -174,7 +225,7 @@ const app = createApp({
     template: `
         <div class="showcase">
             <mio-button radius="medium" style="margin-bottom: 20PX;" @click="handleClick">{{ label[lang] }}</mio-button>
-            <div class="divider">Table</div>
+            <mio-divider label="Table" />
             <mio-table :language="lang">
                 <mio-table-header>
                     <mio-table-column v-for="column in columns" :prop="column.key" :title="column.label[lang]" />
@@ -185,28 +236,28 @@ const app = createApp({
                     </mio-table-row>
                 </mio-table-body>
             </mio-table>
-            <mio-table class="table-custom-cell" :language="lang">
+            <mio-table class="table-custom-cell" :language="lang" width="500">
                 <mio-table-header>
                     <template v-for="column in columnsCustom">
-                        <mio-table-column v-if="column.key === 'date'" :prop="column.key">{{ column.label[lang] }} in Years</mio-table-column>
-                        <mio-table-column v-else :prop="column.key" :title="column.label[lang]" />
+                        <mio-table-column v-if="column.key === 'date'" :prop="column.key" :width="column.configs.width" :fixed="column.configs.fixed" :align="column.configs.align">{{ column.label[lang] }}（yyyy-mm-dd）</mio-table-column>
+                        <mio-table-column v-else :prop="column.key" :title="column.label[lang]" :width="column.configs.width" :fixed="column.configs.fixed" :align="column.configs.align" />
                     </template>
                 </mio-table-header>
                 <mio-table-body>
                     <mio-table-row v-for="row in rowsCustom" :row="row">
                         <template v-for="column in columnsCustom">
-                            <mio-table-cell v-if="column.key === 'actions'" :prop="column.key">
+                            <mio-table-cell v-if="column.key === 'actions'" :prop="column.key" :width="column.configs.width" :fixed="column.configs.fixed" :align="column.configs.align">
                                 <mio-button>{{ modalLabel[lang] }}</mio-button>
                             </mio-table-cell>
-                            <mio-table-cell v-else-if="column.key === 'preview'" :prop="column.key">
+                            <mio-table-cell v-else-if="column.key === 'preview'" :prop="column.key" :width="column.configs.width" :align="column.configs.align">
                                 <div class="table-preview" :style="{ backgroundImage: 'url(' + row[column.key] + ')' }" @click="handlePreview(row[column.key])"></div>
                             </mio-table-cell>
-                            <mio-table-cell v-else :prop="column.key" :label="row[column.key]" />
+                            <mio-table-cell v-else :prop="column.key" :label="row[column.key]" :width="column.configs.width" :align="column.configs.align" />
                         </template>
                     </mio-table-row>
                 </mio-table-body>
             </mio-table>
-            <div class="divider">Compact Table</div>
+            <mio-divider label="Compact Table" />
             <mio-compact-table :data="compactData">
                 <template v-for="column in compactColumns">
                     <mio-compact-table-column :prop="column.key" :label="column.label[lang]" :span="column.configs.span" :tooltip="column.configs.tooltip" :fixed="column.configs.fixed">
@@ -276,5 +327,6 @@ MiOUI.MiOTooltip.install(app);
 MiOUI.MiOCompactTable.install(app);
 MiOUI.MiOTable.install(app);
 MiOUI.MiOModal.install(app);
+MiOUI.MiODivider.install(app);
 
 app.mount('#MiO-UI');

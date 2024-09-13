@@ -29,5 +29,8 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 .mio-table-row {
+    box-sizing: border-box;
+    background: inherit;
+    border-top: 1PX dashed rgba(46, 46, 46, 0.3);
 }
 </style>

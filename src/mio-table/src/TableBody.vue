@@ -7,21 +7,18 @@ export default {
 <script setup>
 import { inject } from "vue";
 
-const props = defineProps({
-});
-
 const UUID = inject("UUID");
-const Language = inject("Language");
-const Rows = inject("Rows");
 </script>
 
 <template>
-    <tbody class="mio-table-body">
+    <tbody :id="'MiO-Table-Body-' + UUID" class="mio-table-body">
         <slot name="default" />
     </tbody>
 </template>
 
 <style lang="scss" scoped>
 .mio-table-body {
+    box-sizing: border-box;
+    background: inherit;
 }
 </style>

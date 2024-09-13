@@ -17,12 +17,6 @@ html, body {
         justify-content: flex-start;
         align-items: center;
         padding: 20PX;
-
-        .divider {
-            margin: 40PX 0 20PX 0;
-            font-size: 18PX;
-            font-weight: 600;
-        }
     }
 }
 
@@ -49,3 +43,6 @@ html, body {
 .table-custom-cell {
     margin-top: 20PX;
 }
+
+
+
